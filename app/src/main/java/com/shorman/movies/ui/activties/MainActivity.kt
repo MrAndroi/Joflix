@@ -12,6 +12,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.shorman.movies.R
 import com.shorman.movies.viewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,10 +27,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        bottomNavigationView.setupWithNavController(nav_host_fragment.findNavController())
+
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         nav_host_fragment.findNavController().addOnDestinationChangedListener { _, destination, _ ->
             when(destination.id){
-                R.id.findMoviesFragment ->{
+                R.id.findMoviesFragment,R.id.watchToNightFragment ->{
                     bottomNavigationView.visibility = View.VISIBLE
                 }
                 else -> {

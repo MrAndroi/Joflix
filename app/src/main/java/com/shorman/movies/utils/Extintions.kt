@@ -3,6 +3,7 @@ package com.shorman.movies.utils
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import androidx.lifecycle.MutableLiveData
 
 fun EditText.beforeTextChanged(afterTextChanged: (String) -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
@@ -17,4 +18,10 @@ fun EditText.beforeTextChanged(afterTextChanged: (String) -> Unit) {
 
         }
     })
+}
+
+// Extension. CopyPaste it anywhere in your project
+fun <T> MutableLiveData<T>.mutation(actions: (MutableLiveData<T>) -> Unit) {
+    actions(this)
+    this.value = this.value
 }

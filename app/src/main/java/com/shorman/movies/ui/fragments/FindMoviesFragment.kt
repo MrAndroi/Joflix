@@ -5,17 +5,15 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shorman.movies.R
 import com.shorman.movies.adapters.ViewPagerAdapter
-import com.shorman.movies.ui.viewPagerFragments.FragmentMovies
-import com.shorman.movies.ui.viewPagerFragments.FragmentTv
+import com.shorman.movies.ui.movie.fragments.FragmentMovies
+import com.shorman.movies.ui.tvShows.FragmentTv
 import com.shorman.movies.utils.beforeTextChanged
 import com.shorman.movies.viewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.find_movies_fragment.*
-import kotlinx.android.synthetic.main.movie_details_one.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,11 +29,6 @@ class FindMoviesFragment: Fragment(R.layout.find_movies_fragment) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activity?.onBackPressedDispatcher?.addCallback(object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                activity?.finish()
-            }
-        })
 
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
     }

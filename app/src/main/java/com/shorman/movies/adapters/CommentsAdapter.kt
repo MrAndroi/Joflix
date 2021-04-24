@@ -7,10 +7,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.shorman.movies.Constans
-import com.shorman.movies.Constans.IMAGES_BASE_URL
+import com.shorman.movies.others.Constans.IMAGES_BASE_URL
 import com.shorman.movies.R
-import com.shorman.movies.moviesApi.models.movie.Review
+import com.shorman.movies.api.models.others.Review
 import kotlinx.android.synthetic.main.review_item.view.*
 
 class CommentsAdapter()

@@ -1,0 +1,9 @@
+<TextView android:id="@+id/textView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Test"
+    android:textColor="#A6A6A6"
+    android:textSize="18sp"
+    android:padding="14dp"
+    android:background="#454545"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

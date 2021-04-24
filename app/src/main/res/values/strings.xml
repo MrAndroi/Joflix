@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Movies</string>
+    <string-array name="watchTypes">
+
+        <item>free</item>
+        <item>buy</item>
+        <item>ads</item>
+        <item>rent</item>
+
+    </string-array>
+
 </resources>

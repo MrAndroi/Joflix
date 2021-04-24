@@ -92,6 +92,9 @@ dependencies {
 
     //photoView
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    //date picker
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
 }
 
 kapt {

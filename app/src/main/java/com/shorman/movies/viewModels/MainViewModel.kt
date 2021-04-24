@@ -2,9 +2,10 @@ package com.shorman.movies.viewModels
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.shorman.movies.moviesApi.models.movie.*
+import com.shorman.movies.api.models.movie.*
+import com.shorman.movies.api.models.others.GenresResponse
+import com.shorman.movies.api.models.others.VideosResponse
 import com.shorman.movies.repo.Repository
 import com.shorman.movies.utils.Resource
 import kotlinx.coroutines.launch
@@ -13,7 +14,8 @@ import kotlinx.coroutines.launch
 class MainViewModel @ViewModelInject constructor(private val repo:Repository):ViewModel() {
 
     val currentQuery = MutableLiveData("")
-    val currentMovieID = MutableLiveData(1)
+    val movieSearchModel = MutableLiveData(MovieSearchModel())
+    private val currentMovieID = MutableLiveData(1)
 
     val actorsDialogVisible = MutableLiveData(false)
 
@@ -33,6 +35,14 @@ class MainViewModel @ViewModelInject constructor(private val repo:Repository):Vi
     val currentMovieImages:LiveData<Resource<MovieImageList>>
         get() = _currentMovieImages
 
+    private val _movieGenresList = MutableLiveData<Resource<GenresResponse>>()
+    val movieGenresList:LiveData<Resource<GenresResponse>>
+        get() = _movieGenresList
+
+    private val _randomMovieList = MutableLiveData<Resource<MoviesResponse>>()
+    val randomMovieList:LiveData<Resource<MoviesResponse>>
+        get() = _randomMovieList
+
 
     val latestMovies = currentQuery.switchMap { queryString ->
         repo.searchForMovies(queryString).cachedIn(viewModelScope)
@@ -41,7 +51,6 @@ class MainViewModel @ViewModelInject constructor(private val repo:Repository):Vi
     val movieComments = currentMovieID.switchMap { id ->
         repo.getMovieComments(id).cachedIn(viewModelScope)
     }
-
 
     fun getMovieDetails(movieID:Int) = viewModelScope.launch {
         _currentMovieDetails.postValue(Resource.loading(null))
@@ -91,6 +100,39 @@ class MainViewModel @ViewModelInject constructor(private val repo:Repository):Vi
             _currentMovieImages.postValue(Resource.error(result.message(),null))
         }
     }
+
+    fun getMovieGenres() = viewModelScope.launch {
+        _movieGenresList.postValue(Resource.loading(null))
+
+        val result = repo.getMovieGenres()
+        if(result.isSuccessful){
+            _movieGenresList.postValue(Resource.success(result.body()))
+        }
+        else{
+            _movieGenresList.postValue(Resource.error(result.message(),null))
+        }
+    }
+
+    fun getRandomMovies(
+        language: String ="",
+        genres:String ="",
+        watchType:String ="",
+        minimumRealseDate:String="",
+        minimumRating:Float=0f,
+    ) = viewModelScope.launch {
+        _randomMovieList.postValue(Resource.loading(null))
+
+        val result = repo.getRandomMovie(language, genres, watchType, minimumRealseDate, minimumRating)
+        if(result.isSuccessful){
+            _randomMovieList.postValue(Resource.success(result.body()))
+        }
+        else{
+            _randomMovieList.postValue(Resource.error(result.message(),null))
+        }
+    }
+
+
+
 
     fun searchKeyWord(query: String) {
         currentQuery.postValue(query)

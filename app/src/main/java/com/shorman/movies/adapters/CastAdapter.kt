@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.shorman.movies.Constans.IMAGES_BASE_URL
+import com.shorman.movies.others.Constans.IMAGES_BASE_URL
 import com.shorman.movies.R
-import com.shorman.movies.moviesApi.models.movie.Cast
+import com.shorman.movies.api.models.others.Cast
 import kotlinx.android.synthetic.main.actor_item.view.*
 
 class CastAdapter(private val onClick:(actor: Cast, itemView:View) -> Unit) : RecyclerView.Adapter<CastAdapter.CastViewHolder>() {

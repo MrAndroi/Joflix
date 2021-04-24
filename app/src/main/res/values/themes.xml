@@ -4,7 +4,7 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/dark_orange</item>
         <item name="colorPrimaryVariant">@color/black</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">#454545</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/light_orange</item>
         <item name="colorSecondaryVariant">@color/medium_orange</item>
@@ -19,5 +19,6 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>
     </style>
+
 
 </resources>

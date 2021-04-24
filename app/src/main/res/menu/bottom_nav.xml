@@ -14,6 +14,12 @@
         />
 
     <item
+        android:id="@+id/watchToNightFragment"
+        android:title="Watch tonight"
+        android:icon="@drawable/watch_tonight_icon"
+        />
+
+    <item
         android:id="@+id/profileFragment"
         android:title="Profile"
         android:icon="@drawable/user_icon"

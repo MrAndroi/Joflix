@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black"
+    android:layout_height="match_parent">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/searchingForShow"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:lottie_autoPlay="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_rawRes="@raw/search_animation"
+        app:lottie_repeatCount="10"
+        app:lottie_repeatMode="restart" />
+
+    <TextView
+        android:id="@+id/tvSearching"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="Finding best movie for you :D ... please wait"
+        android:textAlignment="center"
+        android:textColor="#D3D3D3"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchingForShow" />
+
+    <TextView
+        android:id="@+id/tvRandomNames"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textAlignment="center"
+        android:textColor="#CACACA"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/searchingForShow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/foundShowImage"
+        android:layout_width="300dp"
+        android:layout_height="350dp"
+        android:alpha="0"
+        android:scaleX="0"
+        android:scaleY="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_corner_radius="10dp" />
+
+    <TextView
+        android:id="@+id/foundMovieName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:textAlignment="center"
+        android:alpha="0"
+        android:scaleX="0"
+        android:scaleY="0"
+        android:textColor="#CACACA"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/foundShowImage" />
+
+    <ProgressBar
+        android:id="@+id/progressBarSearchingForMovie"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/foundMovieName" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

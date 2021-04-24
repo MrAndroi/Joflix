@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/movieDetailsFragment"
         tools:layout="@layout/movie_details_fragment"
-        android:name="com.shorman.movies.ui.fragments.MovieDetailsFragment"
+        android:name="com.shorman.movies.ui.movie.fragments.MovieDetailsFragment"
         android:label="MovieDetailsFragment" >
         <argument
             android:name="movieId"
@@ -34,6 +34,17 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/movieDetailsFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/watchToNightFragment"
+        tools:layout="@layout/watch_tonight_fragment"
+        android:name="com.shorman.movies.ui.watchTonight.WatchToNightFragment"
+        android:label="WatchToNightFragment" >
+        <action
+            android:id="@+id/action_watchToNightFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/watchToNightFragment" />
     </fragment>
 
 

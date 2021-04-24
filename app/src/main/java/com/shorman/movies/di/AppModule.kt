@@ -1,7 +1,7 @@
 package com.shorman.movies.di
 
-import com.shorman.movies.Constans.BASE_URL
-import com.shorman.movies.moviesApi.MoviesApi
+import com.shorman.movies.others.Constans.BASE_URL
+import com.shorman.movies.api.MoviesApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
