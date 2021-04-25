@@ -20,5 +20,5 @@ Thank you ... if you like the project leave a star :).
 
 Find me on:
 
-StackoverFlow: https://stackoverflow.com/users/13341452/sami-shorman
+StackoverFlow: https://stackoverflow.com/users/13341452/sami-shorman \n
 Linkedin: https://www.linkedin.com/in/sami-shorman-0577a41a9/
