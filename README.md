@@ -1,6 +1,6 @@
 # Joflix
 
-Android application to get movies and tv shows with from tmdb api
+Android application to get movies and tv shows from tmdb api
 
 This project made using:
 
