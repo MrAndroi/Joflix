@@ -27,7 +27,7 @@ import com.shorman.movies.adapters.CastAdapter
 import com.shorman.movies.api.models.others.Cast
 import com.shorman.movies.api.models.movie.MovieDetails
 import com.shorman.movies.utils.Status
-import com.shorman.movies.viewModels.MainViewModel
+import com.shorman.movies.viewModels.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.movie_details_one.*
 import kotlinx.coroutines.CoroutineScope
@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_details_one) {
 
-    private lateinit var mainViewModel:MainViewModel
+    private lateinit var moviesViewModel:MoviesViewModel
     private lateinit var castAdapter:CastAdapter
     private var movieVideoCode = ""
     private lateinit var linearLayoutManager: LinearLayoutManager
@@ -57,7 +57,7 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
         super.onCreate(savedInstanceState)
 
 
-        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        moviesViewModel = ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
         linearLayoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL,
@@ -79,7 +79,6 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
                         trailerVideo.exitFullScreen()
                     }
                     else{
-                        //findNavController().navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragmentToFindMoviesFragment())
                         findNavController().navigateUp()
                     }
                 }
@@ -103,11 +102,6 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
         }
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        trailerVideo.getPlayerUiController().getMenu()?.dismiss()
-    }
-
     private fun openActorDetailsDialog(item: View, actor: Cast){
         val transform = MaterialContainerTransform().apply {
             startView = item
@@ -117,7 +111,7 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
             addTarget(actorDetailsDialog)
         }
         actorDetailsDialog.visibility = View.VISIBLE
-        mainViewModel.changeActorsDialogVisiblity(true)
+        moviesViewModel.changeActorsDialogVisiblity(true)
         tvActorName.text = actor.name
         if(actor.gender == 1){
             tvActorGender.text = "Gender: female"
@@ -143,15 +137,15 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
             addTarget(item)
         }
         actorDetailsDialog.visibility = View.INVISIBLE
-        mainViewModel.changeActorsDialogVisiblity(false)
+        moviesViewModel.changeActorsDialogVisiblity(false)
 
         TransitionManager.beginDelayedTransition(movieDetailsOneContainer, transform)
 
     }
 
     private fun getAllMovieData(){
-        mainViewModel.getMovieActors(movieId)
-        mainViewModel.getMovieVideos(movieId)
+        moviesViewModel.getMovieActors(movieId)
+        moviesViewModel.getMovieVideos(movieId)
     }
 
     private fun setUpActorsRecyclerView(){
@@ -161,7 +155,7 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
     }
 
     private fun subscribeToObservers(){
-        mainViewModel.currentMovieDetails.observe(viewLifecycleOwner){
+        moviesViewModel.currentMovieDetails.observe(viewLifecycleOwner){
             when(it.status){
                 Status.LOADING -> {
                     progressBarMovieDetailsOne.isVisible = true
@@ -173,12 +167,13 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
                     }
                 }
                 Status.ERROR -> {
-
+                    Snackbar.make(requireView(),"Error:${it.message}",2000).show()
+                    progressBarMovieDetailsOne.isVisible = false
                 }
             }
         }
 
-        mainViewModel.currentMovieActors.observe(viewLifecycleOwner){
+        moviesViewModel.currentMovieActors.observe(viewLifecycleOwner){
             if (it.status == Status.SUCCESS){
                 it.data?.let { actorsResponse ->
                     CoroutineScope(Dispatchers.Main).launch {
@@ -194,7 +189,7 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
             }
         }
 
-        mainViewModel.currentMovieVideos.observe(viewLifecycleOwner){
+        moviesViewModel.currentMovieVideos.observe(viewLifecycleOwner){
             if(it.status == Status.SUCCESS){
                 it.data?.let { videosResponse ->
 
@@ -209,7 +204,7 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
             }
         }
 
-        mainViewModel.actorsDialogVisible.observe(viewLifecycleOwner){
+        moviesViewModel.actorsDialogVisible.observe(viewLifecycleOwner){
             if(it){
                 movieDetailsOneContainer.setOnClickListener {
                     exitActorDetailsDialog(currentActorView)

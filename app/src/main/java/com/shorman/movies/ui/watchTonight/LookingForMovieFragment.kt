@@ -3,9 +3,7 @@ package com.shorman.movies.ui.watchTonight
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewOutlineProvider
 import android.view.animation.LinearInterpolator
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -17,7 +15,7 @@ import com.shorman.movies.api.models.movie.MovieSearchModel
 import com.shorman.movies.others.Constans.API_KEY
 import com.shorman.movies.others.Constans.IMAGES_BASE_URL
 import com.shorman.movies.utils.Status
-import com.shorman.movies.viewModels.MainViewModel
+import com.shorman.movies.viewModels.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.looking_for_movie_fragment.*
 import kotlinx.coroutines.CoroutineScope
@@ -30,7 +28,7 @@ import javax.inject.Inject
 class LookingForMovieFragment ():Fragment(R.layout.looking_for_movie_fragment) {
 
 
-    lateinit var mainViewModel: MainViewModel
+    lateinit var moviesViewModel: MoviesViewModel
     lateinit var userRequirments: MovieSearchModel
     lateinit var moviesList:ArrayList<MovieModel>
     lateinit var randomMovie:MovieModel
@@ -41,7 +39,7 @@ class LookingForMovieFragment ():Fragment(R.layout.looking_for_movie_fragment) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        moviesViewModel = ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
         moviesList = ArrayList()
         userRequirments = MovieSearchModel()
 
@@ -52,7 +50,7 @@ class LookingForMovieFragment ():Fragment(R.layout.looking_for_movie_fragment) {
 
         progressBarSearchingForMovie.visibility = View.VISIBLE
 
-        mainViewModel.getRandomMovies(
+        moviesViewModel.getRandomMovies(
             userRequirments.language,
             userRequirments.genres,
             userRequirments.watchType,
@@ -61,7 +59,7 @@ class LookingForMovieFragment ():Fragment(R.layout.looking_for_movie_fragment) {
         )
 
         foundShowImage.setOnClickListener {
-            mainViewModel.changeMovieID(randomMovie.id)
+            moviesViewModel.changeMovieID(randomMovie.id)
             val direction = WatchToNightFragmentDirections.actionWatchToNightFragmentToMovieDetailsFragment(randomMovie.id)
             findNavController().navigate(direction)
         }
@@ -69,7 +67,7 @@ class LookingForMovieFragment ():Fragment(R.layout.looking_for_movie_fragment) {
     }
 
     private fun getRandomMovie(){
-        mainViewModel.randomMovieList.observe(viewLifecycleOwner){
+        moviesViewModel.randomMovieList.observe(viewLifecycleOwner){
             when(it.status){
                 Status.LOADING->{}
                 Status.SUCCESS ->{
@@ -81,7 +79,7 @@ class LookingForMovieFragment ():Fragment(R.layout.looking_for_movie_fragment) {
                             randomMovie = selectOneMovie(moviesList)
                             tvRandomNames.text = ""
                             hideSearchWithAnimation()
-                            showFoundMovie(randomMovie)
+                            showFoundMovieWithAnimation(randomMovie)
                             progressBarSearchingForMovie.visibility = View.INVISIBLE
                         }
                     }
@@ -89,7 +87,7 @@ class LookingForMovieFragment ():Fragment(R.layout.looking_for_movie_fragment) {
                 Status.ERROR ->{}
             }
         }
-        mainViewModel.movieSearchModel.observe(viewLifecycleOwner){
+        moviesViewModel.movieSearchModel.observe(viewLifecycleOwner){
             userRequirments = it
         }
     }
@@ -97,7 +95,7 @@ class LookingForMovieFragment ():Fragment(R.layout.looking_for_movie_fragment) {
     private suspend fun addMoreMovies(pageNumbers:Int){
         if(pageNumbers > 10){
                 for (i in 0..10){
-                    val randomMoviesPage = moviesApi.getRandomMovie2(
+                    val randomMoviesPage = moviesApi.getRandomMovie(
                         userRequirments.language,
                         userRequirments.genres,
                         userRequirments.watchType,
@@ -114,7 +112,7 @@ class LookingForMovieFragment ():Fragment(R.layout.looking_for_movie_fragment) {
             }
         else{
                 for (i in 0..pageNumbers){
-                    val randomMoviesPage = moviesApi.getRandomMovie2(
+                    val randomMoviesPage = moviesApi.getRandomMovie(
                         userRequirments.language,
                         userRequirments.genres,
                         userRequirments.watchType,
@@ -165,7 +163,7 @@ class LookingForMovieFragment ():Fragment(R.layout.looking_for_movie_fragment) {
         }
     }
 
-    private fun showFoundMovie(movieModel: MovieModel){
+    private fun showFoundMovieWithAnimation(movieModel: MovieModel){
         foundShowImage.load(IMAGES_BASE_URL+movieModel.poster_path){
             placeholder(R.drawable.place_holder)
             error(R.drawable.place_holder)

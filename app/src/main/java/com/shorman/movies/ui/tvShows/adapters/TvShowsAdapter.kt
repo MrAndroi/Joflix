@@ -1,5 +1,6 @@
-package com.shorman.movies.ui.movie.adapters
+package com.shorman.movies.ui.tvShows.adapters
 
+import com.shorman.movies.api.models.tvshows.TvShowModel
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,33 +11,34 @@ import coil.load
 import com.shorman.movies.others.Constans.FOOTER_VIEW_TYPE
 import com.shorman.movies.others.Constans.MOVIE_VIEW_TYPE
 import com.shorman.movies.R
-import com.shorman.movies.api.models.movie.MovieModel
 import kotlinx.android.synthetic.main.show_item.view.*
 
-class MoviesAdapter(private val onClick:(movieId:Int) -> Unit)
-    :PagingDataAdapter<MovieModel, MoviesAdapter.ShowsViewHolder>(MOVIE_COMPARER) {
+class TvShowsAdapter(private val onClick:(tvShowID:Int) -> Unit)
+    :PagingDataAdapter<TvShowModel, TvShowsAdapter.TvShowsViewHolder>(TV_SHOWS_COMPARER) {
 
-    class ShowsViewHolder(itemView:View):RecyclerView.ViewHolder(itemView)
+    class TvShowsViewHolder(itemView:View):RecyclerView.ViewHolder(itemView)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowsViewHolder {
-       return ShowsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.show_item,parent,false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvShowsViewHolder {
+        return TvShowsViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.show_item, parent, false)
+        )
     }
 
-    override fun onBindViewHolder(holder: ShowsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TvShowsViewHolder, position: Int) {
         val show = getItem(position)
 
         holder.itemView.apply{
-            show?.let {movieModel ->
-                showImage.load(movieModel.poster_path){
+            show?.let {showModel ->
+                showImage.load(showModel.poster_path){
                     placeholder(R.drawable.place_holder)
                     error(R.drawable.place_holder)
                     crossfade(true)
                     crossfade(1000)
                 }
-                tvShowName.text = movieModel.original_title
-                tvShowYear.text = movieModel.release_date
+                tvShowName.text = showModel.original_name
+                tvShowYear.text = showModel.first_air_date
                 setOnClickListener {
-                    onClick(movieModel.id)
+                    onClick(showModel.id)
                 }
             }
 
@@ -52,13 +54,13 @@ class MoviesAdapter(private val onClick:(movieId:Int) -> Unit)
     }
 
     companion object{
-         val MOVIE_COMPARER = object :DiffUtil.ItemCallback<MovieModel>(){
+        val TV_SHOWS_COMPARER = object :DiffUtil.ItemCallback<TvShowModel>(){
 
-            override fun areItemsTheSame(oldItem: MovieModel, newItem: MovieModel): Boolean {
+            override fun areItemsTheSame(oldItem: TvShowModel, newItem: TvShowModel): Boolean {
                 return oldItem.hashCode() == newItem.hashCode()
             }
 
-            override fun areContentsTheSame(oldItem: MovieModel, newItem: MovieModel): Boolean {
+            override fun areContentsTheSame(oldItem: TvShowModel, newItem: TvShowModel): Boolean {
                 return oldItem == newItem
             }
 

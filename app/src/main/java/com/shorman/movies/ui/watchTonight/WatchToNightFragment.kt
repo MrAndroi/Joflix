@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.shorman.movies.R
 import com.shorman.movies.adapters.ViewPagerAdapter
-import com.shorman.movies.api.MoviesApi
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.watch_tonight_fragment.*
 

@@ -5,12 +5,14 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.shorman.movies.api.MoviesApi
-import com.shorman.movies.api.models.others.Language
+import com.shorman.movies.api.TvShowsApi
 import com.shorman.movies.api.pagingSource.CommentsPagingSource
 import com.shorman.movies.api.pagingSource.MoviesPagingSource
+import com.shorman.movies.api.pagingSource.TvShowsCommentsPagingSource
+import com.shorman.movies.api.pagingSource.TvShowsPagingSource
 import javax.inject.Inject
 
-class Repository @Inject constructor(private val moviesApi: MoviesApi) {
+class Repository @Inject constructor(private val moviesApi: MoviesApi,private val tvShowsApi: TvShowsApi) {
 
     fun searchForMovies(searchKeyword:String) =
         Pager(
@@ -50,5 +52,31 @@ class Repository @Inject constructor(private val moviesApi: MoviesApi) {
     ) = moviesApi.getRandomMovie(
         language,genres,watchType,minimumRealseDate,minimumRating
     )
+
+    //////////////////////STARTING TV SHOWS FUNCTIONS HERE/////////////////////////////
+
+    fun searchForTvShows(searchKeyword: String) =
+        Pager(
+            PagingConfig(
+                pageSize = 10,
+                maxSize = 30,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {TvShowsPagingSource(tvShowsApi,searchKeyword)}
+        ).liveData
+
+    fun getTvShowReviews(tvShowID: Int) =
+        Pager(
+            PagingConfig(
+                pageSize = 10,
+                maxSize = 30,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {TvShowsCommentsPagingSource(tvShowsApi,tvShowID)}
+        ).liveData
+
+    suspend fun getTvShowDetails(tvShowID:Int) = tvShowsApi.getTvShowDetails(tvShowID = tvShowID)
+
+    suspend fun getTvShowVideos(tvShowID: Int) = tvShowsApi.getTvShowVideos(tvShowID)
 
 }

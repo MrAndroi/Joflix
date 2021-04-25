@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:background="@color/black">
+
+    <ImageView
+        android:id="@+id/seasonImage"
+        android:layout_width="0dp"
+        android:layout_height="210dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/test" />
+
+    <TextView
+        android:id="@+id/seasonNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/season_number_background"
+        android:text="1"
+        android:textAlignment="center"
+        android:textColor="#D1D1D1"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSeasonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="This is season name"
+        android:textColor="#DCDCDC"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seasonImage" />
+
+    <TextView
+        android:id="@+id/tvSeasonOverView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:text="thi is season over view for this movie name i dont know what im typing ahahaha"
+        android:textColor="#C5C5C5"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvSeasonName"
+        app:layout_constraintTop_toBottomOf="@+id/tvSeasonName" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/small_dot"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSeasonName"
+        app:layout_constraintStart_toEndOf="@+id/tvSeasonName"
+        app:layout_constraintTop_toTopOf="@+id/tvSeasonName" />
+
+    <TextView
+        android:id="@+id/tvSeasonDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="16/4/2020"
+        android:textColor="#C5C5C5"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSeasonName"
+        app:layout_constraintStart_toEndOf="@+id/view2"
+        app:layout_constraintTop_toTopOf="@+id/tvSeasonName" />
+
+    <TextView
+        android:id="@+id/tvSeasonEpisodes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="20 Episodes"
+        android:textColor="#C5C5C5"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvSeasonOverView"
+        app:layout_constraintTop_toBottomOf="@+id/tvSeasonOverView" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

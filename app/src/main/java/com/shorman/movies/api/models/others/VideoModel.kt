@@ -1,6 +1,6 @@
-package com.shorman.movies.api.models.movie
+package com.shorman.movies.api.models.others
 
-data class MovieVideo(
+data class VideoModel(
     val key: String,
     val name: String,
     val site: String,

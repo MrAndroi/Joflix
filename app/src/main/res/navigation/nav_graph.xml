@@ -19,6 +19,11 @@
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@id/findMoviesFragment" />
+        <action
+            android:id="@+id/action_findMoviesFragment_to_fragmentTvShowDetails"
+            app:destination="@id/fragmentTvShowDetails"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/findMoviesFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -28,12 +33,6 @@
         <argument
             android:name="movieId"
             app:argType="integer" />
-        <action
-            android:id="@+id/action_movieDetailsFragment_to_findMoviesFragment"
-            app:destination="@id/findMoviesFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/movieDetailsFragment"
-            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/watchToNightFragment"
@@ -45,6 +44,15 @@
             app:destination="@id/movieDetailsFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/watchToNightFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentTvShowDetails"
+        tools:layout="@layout/tv_details_fragment"
+        android:name="com.shorman.movies.ui.tvShows.fragments.FragmentTvShowDetails"
+        android:label="FragmentTvShowDetails" >
+        <argument
+            android:name="tvShowID"
+            app:argType="integer" />
     </fragment>
 
 

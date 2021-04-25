@@ -14,7 +14,7 @@ import com.shorman.movies.R
 import com.shorman.movies.adapters.LoadStatusAdapter
 import com.shorman.movies.ui.movie.adapters.MoviesAdapter
 import com.shorman.movies.ui.fragments.FindMoviesFragmentDirections
-import com.shorman.movies.viewModels.MainViewModel
+import com.shorman.movies.viewModels.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.movies_fragment.*
 import kotlinx.coroutines.CoroutineScope
@@ -24,20 +24,19 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class FragmentMovies:Fragment(R.layout.movies_fragment) {
 
-    private lateinit var mainViewModel:MainViewModel
+    private lateinit var moviesViewModel:MoviesViewModel
     private lateinit var moviesAdapter: MoviesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        moviesViewModel = ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
 
         moviesAdapter = MoviesAdapter{
-            mainViewModel.changeMovieID(it)
+            moviesViewModel.changeMovieID(it)
             val directions = FindMoviesFragmentDirections.actionFindMoviesFragmentToMovieDetailsFragment(it)
             findNavController().navigate(directions)
         }
-
 
 
     }
@@ -109,18 +108,18 @@ class FragmentMovies:Fragment(R.layout.movies_fragment) {
 
     @SuppressLint("SetTextI18n")
     private fun setUpObservers(){
-        mainViewModel.latestMovies.observe(viewLifecycleOwner){movies ->
+        moviesViewModel.latestMovies.observe(viewLifecycleOwner){ movies ->
             moviesAdapter.submitData(viewLifecycleOwner.lifecycle,movies)
         }
 
-        mainViewModel.currentQuery.observe(viewLifecycleOwner){
+        moviesViewModel.currentQuery.observe(viewLifecycleOwner){
             tvNoResultsMovies.text = "No results found for \"${it}\""
         }
     }
 
     private fun refreshMovies(){
         CoroutineScope(Dispatchers.Main).launch {
-            mainViewModel.searchKeyWord("")
+            moviesViewModel.searchKeyWord("")
             swipeToRefreshMovies.isRefreshing = false
         }
     }

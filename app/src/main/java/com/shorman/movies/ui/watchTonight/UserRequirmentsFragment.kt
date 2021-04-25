@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.shorman.movies.R
@@ -17,7 +16,7 @@ import com.shorman.movies.others.Constans.LANGUAGE_CODES
 import com.shorman.movies.utils.Status
 import com.shorman.movies.utils.getAllLanguages
 import com.shorman.movies.utils.mutation
-import com.shorman.movies.viewModels.MainViewModel
+import com.shorman.movies.viewModels.MoviesViewModel
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.android.synthetic.main.user_requirments_fragment.*
 import java.util.*
@@ -32,12 +31,12 @@ class UserRequirmentsFragment:Fragment(R.layout.user_requirments_fragment),DateP
     lateinit var watchTypeAdapter:ArrayAdapter<String>
     lateinit var watchTypeList:Array<String>
 
-    lateinit var mainViewModel:MainViewModel
+    lateinit var moviesViewModel:MoviesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        moviesViewModel = ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
 
         watchTypeList = resources.getStringArray(R.array.watchTypes)
         genresList = emptyArray()
@@ -60,14 +59,14 @@ class UserRequirmentsFragment:Fragment(R.layout.user_requirments_fragment),DateP
         etLanguage.setAdapter(languagesAdapter)
         etLanguage.setOnItemClickListener { _, _, position, _ ->
             etLanguage.setText(languages[position].name)
-            mainViewModel.movieSearchModel.mutation {
+            moviesViewModel.movieSearchModel.mutation {
                 it.value?.language = languages[position].code
             }
 
         }
 
         //genres input
-        mainViewModel.movieGenresList.observe(viewLifecycleOwner){ genresResponse ->
+        moviesViewModel.movieGenresList.observe(viewLifecycleOwner){ genresResponse ->
             when(genresResponse.status){
                 Status.LOADING -> {
                     tvStatus.text = "Loading please wait ..."
@@ -93,7 +92,7 @@ class UserRequirmentsFragment:Fragment(R.layout.user_requirments_fragment),DateP
         }
         etGenres.setOnItemClickListener { _, _, position, _ ->
             etGenres.setText(genresList[position].name)
-            mainViewModel.movieSearchModel.mutation {
+            moviesViewModel.movieSearchModel.mutation {
                 it.value?.genres = genresList[position].id.toString()
             }
         }
@@ -102,7 +101,7 @@ class UserRequirmentsFragment:Fragment(R.layout.user_requirments_fragment),DateP
         etWatchType.setAdapter(watchTypeAdapter)
         etWatchType.setOnItemClickListener { _, _, position, _ ->
             etWatchType.setText(watchTypeList[position])
-            mainViewModel.movieSearchModel.mutation {
+            moviesViewModel.movieSearchModel.mutation {
                 it.value?.watchType = watchTypeList[position]
             }
         }
@@ -123,7 +122,7 @@ class UserRequirmentsFragment:Fragment(R.layout.user_requirments_fragment),DateP
         //rating input
         ratingSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                mainViewModel.movieSearchModel.mutation {
+                moviesViewModel.movieSearchModel.mutation {
                     it.value?.minimumRating = progress.toFloat()
                 }
             }
@@ -136,12 +135,12 @@ class UserRequirmentsFragment:Fragment(R.layout.user_requirments_fragment),DateP
     }
 
     private fun getAllData(){
-        mainViewModel.getMovieGenres()
+        moviesViewModel.getMovieGenres()
     }
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
         etReleaseDate.setText("$year-$monthOfYear-$dayOfMonth")
-        mainViewModel.movieSearchModel.mutation {
+        moviesViewModel.movieSearchModel.mutation {
             it.value?.minimumReleaseDate = "$year-$monthOfYear-$dayOfMonth"
         }
     }

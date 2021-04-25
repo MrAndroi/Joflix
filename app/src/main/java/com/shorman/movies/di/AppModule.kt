@@ -2,6 +2,7 @@ package com.shorman.movies.di
 
 import com.shorman.movies.others.Constans.BASE_URL
 import com.shorman.movies.api.MoviesApi
+import com.shorman.movies.api.TvShowsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,10 +17,18 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideCurrencyApi(): MoviesApi = Retrofit.Builder()
+    fun provideMoviesApi(): MoviesApi = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(MoviesApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideTvShowsApi(): TvShowsApi = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(TvShowsApi::class.java)
 
 }

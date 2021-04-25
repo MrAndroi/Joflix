@@ -17,7 +17,7 @@ import com.shorman.movies.adapters.LoadStatusAdapter
 import com.shorman.movies.ui.movie.adapters.MovieImageAdapter
 import com.shorman.movies.api.models.movie.MovieDetails
 import com.shorman.movies.utils.Status
-import com.shorman.movies.viewModels.MainViewModel
+import com.shorman.movies.viewModels.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.movie_details_two.*
 
@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.movie_details_two.*
 @AndroidEntryPoint
 class MovieDetailsTwoFragment(private val movieId: Int):Fragment(R.layout.movie_details_two) {
 
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var moviesViewModel: MoviesViewModel
     lateinit var movieImageAdapter: MovieImageAdapter
     lateinit var commentsAdapter: CommentsAdapter
     lateinit var linearLayoutManager: LinearLayoutManager
@@ -33,8 +33,8 @@ class MovieDetailsTwoFragment(private val movieId: Int):Fragment(R.layout.movie_
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-        mainViewModel.getMovieImages(movieId)
+        moviesViewModel = ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
+        moviesViewModel.getMovieImages(movieId)
         movieImageAdapter = MovieImageAdapter()
         commentsAdapter = CommentsAdapter()
         linearLayoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
@@ -86,7 +86,7 @@ class MovieDetailsTwoFragment(private val movieId: Int):Fragment(R.layout.movie_
     }
 
     private fun setUpObservers(){
-        mainViewModel.currentMovieDetails.observe(viewLifecycleOwner){
+        moviesViewModel.currentMovieDetails.observe(viewLifecycleOwner){
             when(it.status){
                 Status.LOADING -> {
                     progressBarMovieDetailsTwo.isVisible = true
@@ -105,7 +105,7 @@ class MovieDetailsTwoFragment(private val movieId: Int):Fragment(R.layout.movie_
             }
         }
 
-        mainViewModel.currentMovieImages.observe(viewLifecycleOwner){
+        moviesViewModel.currentMovieImages.observe(viewLifecycleOwner){
             when(it.status){
                 Status.LOADING -> {
                     progressBarMovieDetailsTwo.isVisible = true
@@ -124,7 +124,7 @@ class MovieDetailsTwoFragment(private val movieId: Int):Fragment(R.layout.movie_
             }
         }
 
-        mainViewModel.movieComments.observe(viewLifecycleOwner){comments ->
+        moviesViewModel.movieComments.observe(viewLifecycleOwner){ comments ->
             commentsAdapter.submitData(viewLifecycleOwner.lifecycle,comments)
         }
     }

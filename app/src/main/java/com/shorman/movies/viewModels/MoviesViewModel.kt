@@ -4,6 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.shorman.movies.api.models.movie.*
+import com.shorman.movies.api.models.others.ActorsResponse
 import com.shorman.movies.api.models.others.GenresResponse
 import com.shorman.movies.api.models.others.VideosResponse
 import com.shorman.movies.repo.Repository
@@ -11,7 +12,7 @@ import com.shorman.movies.utils.Resource
 import kotlinx.coroutines.launch
 
 
-class MainViewModel @ViewModelInject constructor(private val repo:Repository):ViewModel() {
+class MoviesViewModel @ViewModelInject constructor(private val repo:Repository):ViewModel() {
 
     val currentQuery = MutableLiveData("")
     val movieSearchModel = MutableLiveData(MovieSearchModel())

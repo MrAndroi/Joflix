@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.shorman.movies.R
 import com.shorman.movies.adapters.ViewPagerAdapter
-import com.shorman.movies.viewModels.MainViewModel
+import com.shorman.movies.viewModels.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.movie_details_fragment.*
 import kotlinx.coroutines.CoroutineScope
@@ -30,13 +30,13 @@ class MovieDetailsFragment:Fragment(R.layout.movie_details_fragment) {
     private lateinit var pagerAdapter: ViewPagerAdapter
     private val animator = ValueAnimator()
     private var animFactor = 0
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var moviesViewModel: MoviesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-        mainViewModel.getMovieDetails(args.movieId)
+        moviesViewModel = ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
+        moviesViewModel.getMovieDetails(args.movieId)
 
     }
 

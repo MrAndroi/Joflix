@@ -1,4 +1,4 @@
-package com.shorman.movies.api.models.movie
+package com.shorman.movies.api.models.others
 
 data class ProductionCompany(
     val id: Int,
