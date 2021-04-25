@@ -5,12 +5,19 @@ Android application to get movies and tv shows from tmdb api
 This project made using:
 
 Language: Kotlin
+
 Networking: Retrofit
+
 Paging: Paging3
+
 View binding: Kotlin extintions
+
 Navigation: Navigation component
+
 Design pattren: MVVM (one activity)
+
 Asynchronous: Kotlin Coroutines
+
 and much more you will explore in the source code ...
 
 
