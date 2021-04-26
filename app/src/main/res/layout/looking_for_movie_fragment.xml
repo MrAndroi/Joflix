@@ -7,6 +7,59 @@
     android:layout_height="match_parent">
 
     <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/spark1"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="24dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/foundShowImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spark2"
+        app:layout_constraintTop_toBottomOf="@+id/tvSearching"
+        app:lottie_rawRes="@raw/spark_animation"
+        app:lottie_repeatCount="10"
+        app:lottie_repeatMode="restart" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/spark2"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/foundShowImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSearching"
+        android:visibility="invisible"
+        app:lottie_rawRes="@raw/spark_animation"
+        app:lottie_repeatCount="10"
+        app:lottie_repeatMode="restart" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/spark3"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="24dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/searchingForShow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRandomNames"
+        app:lottie_rawRes="@raw/spark_animation"
+        app:lottie_repeatCount="10"
+        app:lottie_repeatMode="restart" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/spark4"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="24dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/searchingForShow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRandomNames"
+        app:lottie_rawRes="@raw/spark_animation"
+        app:lottie_repeatCount="10"
+        app:lottie_repeatMode="restart" />
+
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/searchingForShow"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -18,6 +71,20 @@
         app:lottie_rawRes="@raw/search_animation"
         app:lottie_repeatCount="10"
         app:lottie_repeatMode="restart" />
+
+    <ImageButton
+        android:id="@+id/lookingForMovieBackBtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/back_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvSearching"

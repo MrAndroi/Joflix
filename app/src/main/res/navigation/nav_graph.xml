@@ -37,11 +37,13 @@
     <fragment
         android:id="@+id/watchToNightFragment"
         tools:layout="@layout/watch_tonight_fragment"
-        android:name="com.shorman.movies.ui.watchTonight.WatchToNightFragment"
+        android:name="com.shorman.movies.ui.fragments.WatchToNightFragment"
         android:label="WatchToNightFragment" >
         <action
-            android:id="@+id/action_watchToNightFragment_to_movieDetailsFragment"
-            app:destination="@id/movieDetailsFragment"
+            android:id="@+id/action_watchToNightFragment_to_movieRequirmentsFragment"
+            app:destination="@id/movieRequirmentsFragment"
+            app:enterAnim="@android:anim/fade_out"
+            app:exitAnim="@android:anim/fade_out"
             app:launchSingleTop="true"
             app:popUpTo="@id/watchToNightFragment" />
     </fragment>
@@ -53,6 +55,30 @@
         <argument
             android:name="tvShowID"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieRequirmentsFragment"
+        tools:layout="@layout/movie_requirments_fragment"
+        android:name="com.shorman.movies.ui.movie.fragments.MovieRequirmentsFragment"
+        android:label="MovieRequirmentsFragment" >
+        <action
+            android:id="@+id/action_movieRequirmentsFragment_to_lookingForMovieFragment"
+            app:destination="@id/lookingForMovieFragment"
+            app:enterAnim="@anim/enter_animation"
+            app:exitAnim="@anim/exit_animation"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/movieRequirmentsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/lookingForMovieFragment"
+        tools:layout="@layout/looking_for_movie_fragment"
+        android:name="com.shorman.movies.ui.movie.fragments.LookingForMovieFragment"
+        android:label="LookingForMovieFragment" >
+        <action
+            android:id="@+id/action_lookingForMovieFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/movieRequirmentsFragment" />
     </fragment>
 
 

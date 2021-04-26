@@ -2,6 +2,7 @@ package com.shorman.movies.viewModels
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.cachedIn
 import com.shorman.movies.api.models.movie.*
 import com.shorman.movies.api.models.others.ActorsResponse
@@ -45,6 +46,7 @@ class MoviesViewModel @ViewModelInject constructor(private val repo:Repository):
         get() = _randomMovieList
 
 
+    @ExperimentalPagingApi
     val latestMovies = currentQuery.switchMap { queryString ->
         repo.searchForMovies(queryString).cachedIn(viewModelScope)
     }

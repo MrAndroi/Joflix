@@ -18,10 +18,6 @@ class TvShowsPagingSource(private val tvShowsApi: TvShowsApi, private val query:
             if(query == ""){
                 val response = tvShowsApi.getPopularTvShows(page = position)
                 val tvShows = response.results
-                tvShows.map {
-                    it.poster_path = Constans.IMAGES_BASE_URL +it.poster_path
-                }
-
                 LoadResult.Page(
                     data = tvShows,
                     prevKey = if (position == TV_SHOW_STARTING_PAGE_INDEX) null else position - 1,

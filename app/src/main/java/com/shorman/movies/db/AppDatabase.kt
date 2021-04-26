@@ -9,5 +9,6 @@ import com.shorman.movies.api.models.others.RemoteKeys
 abstract class AppDatabase:RoomDatabase() {
 
     abstract fun getMoviesDao():MoviesDao
-    abstract fun getRemoteKeysDao():RemoteKeysDao
+    abstract fun getRemoteKeysDao():RemoteKeysMoviesDao
+
 }

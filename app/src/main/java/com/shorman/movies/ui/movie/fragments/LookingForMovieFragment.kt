@@ -1,9 +1,10 @@
-package com.shorman.movies.ui.watchTonight
+package com.shorman.movies.ui.movie.fragments
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,7 @@ import com.shorman.movies.api.models.movie.MovieModel
 import com.shorman.movies.api.models.movie.MovieSearchModel
 import com.shorman.movies.others.Constans.API_KEY
 import com.shorman.movies.others.Constans.IMAGES_BASE_URL
+import com.shorman.movies.ui.fragments.WatchToNightFragmentDirections
 import com.shorman.movies.utils.Status
 import com.shorman.movies.viewModels.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,10 +60,16 @@ class LookingForMovieFragment ():Fragment(R.layout.looking_for_movie_fragment) {
             userRequirments.minimumRating
         )
 
+        getRandomMovie()
+
         foundShowImage.setOnClickListener {
             moviesViewModel.changeMovieID(randomMovie.id)
-            val direction = WatchToNightFragmentDirections.actionWatchToNightFragmentToMovieDetailsFragment(randomMovie.id)
+            val direction = LookingForMovieFragmentDirections.actionLookingForMovieFragmentToMovieDetailsFragment(randomMovie.id)
             findNavController().navigate(direction)
+        }
+
+        lookingForMovieBackBtn.setOnClickListener {
+            findNavController().navigateUp()
         }
 
     }
@@ -187,16 +195,34 @@ class LookingForMovieFragment ():Fragment(R.layout.looking_for_movie_fragment) {
             startDelay = 500
             start()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        getRandomMovie()
+        showSparks()
     }
 
     override fun onPause() {
         super.onPause()
         tvRandomNames.text = ""
+    }
+
+    private fun showSparks(){
+        spark1.isVisible = true
+        spark2.isVisible = true
+        spark3.isVisible = true
+        spark4.isVisible = true
+        spark1.playAnimation()
+        spark2.playAnimation()
+        spark3.playAnimation()
+        spark4.playAnimation()
+    }
+
+    private fun hideSparks(){
+        spark1.isVisible = false
+        spark2.isVisible = false
+        spark3.isVisible = false
+        spark4.isVisible = false
+        spark1.pauseAnimation()
+        spark2.pauseAnimation()
+        spark3.pauseAnimation()
+        spark4.pauseAnimation()
     }
 
 }

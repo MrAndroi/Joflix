@@ -3,6 +3,7 @@ package com.shorman.movies.ui.tvShows.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.shorman.movies.R
 import com.shorman.movies.adapters.ViewPagerAdapter
@@ -25,6 +26,10 @@ class FragmentTvShowDetails:Fragment(R.layout.tv_details_fragment) {
 
         tvShowPagerAdapter = ViewPagerAdapter(childFragmentManager,lifecycle,fragmentArrayList)
         detailsPagerTv.adapter = tvShowPagerAdapter
+
+        tvShowDetailsBackBtn.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
     }
 

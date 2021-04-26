@@ -1,18 +1,14 @@
 package com.shorman.movies.repo
 
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.liveData
+import androidx.paging.*
 import com.shorman.movies.api.MoviesApi
 import com.shorman.movies.api.TvShowsApi
-import com.shorman.movies.api.pagingSource.CommentsPagingSource
-import com.shorman.movies.api.pagingSource.MoviesPagingSource
-import com.shorman.movies.api.pagingSource.TvShowsCommentsPagingSource
-import com.shorman.movies.api.pagingSource.TvShowsPagingSource
+import com.shorman.movies.api.pagingSource.*
+import com.shorman.movies.db.AppDatabase
 import javax.inject.Inject
 
-class Repository @Inject constructor(private val moviesApi: MoviesApi,private val tvShowsApi: TvShowsApi) {
+class Repository @Inject constructor(private val moviesApi: MoviesApi,private val tvShowsApi: TvShowsApi,private val database: AppDatabase) {
 
     fun searchForMovies(searchKeyword:String) =
         Pager(
@@ -22,6 +18,18 @@ class Repository @Inject constructor(private val moviesApi: MoviesApi,private va
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { MoviesPagingSource(moviesApi, searchKeyword) }
+        ).liveData
+
+    @ExperimentalPagingApi
+    fun searchForMovies2(searchKeyword: String) =
+        Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                maxSize = 40,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {database.getMoviesDao().getAllMovies()},
+            remoteMediator = MoviesMediator(moviesApi,database,searchKeyword)
         ).liveData
 
     fun getMovieComments(movieID: Int) = Pager(

@@ -1,4 +1,4 @@
-package com.shorman.movies.ui.watchTonight
+package com.shorman.movies.ui.movie.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.shorman.movies.R
 import com.shorman.movies.adapters.GenresAdapter
 import com.shorman.movies.adapters.LanguagesAdapter
@@ -18,12 +19,12 @@ import com.shorman.movies.utils.getAllLanguages
 import com.shorman.movies.utils.mutation
 import com.shorman.movies.viewModels.MoviesViewModel
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import kotlinx.android.synthetic.main.user_requirments_fragment.*
+import kotlinx.android.synthetic.main.movie_requirments_fragment.*
 import java.util.*
 
 
 @SuppressLint("SetTextI18n")
-class UserRequirmentsFragment:Fragment(R.layout.user_requirments_fragment),DatePickerDialog.OnDateSetListener {
+class MovieRequirmentsFragment:Fragment(R.layout.movie_requirments_fragment),DatePickerDialog.OnDateSetListener {
 
     lateinit var languagesAdapter: LanguagesAdapter
     lateinit var languages:Array<Language>
@@ -51,6 +52,14 @@ class UserRequirmentsFragment:Fragment(R.layout.user_requirments_fragment),DateP
         super.onViewCreated(view, savedInstanceState)
 
         setUpAllTexts()
+        movieRequirmentsBackBtn.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        tvGoMovies.setOnClickListener {
+            val direction = MovieRequirmentsFragmentDirections.actionMovieRequirmentsFragmentToLookingForMovieFragment()
+            findNavController().navigate(direction)
+        }
 
     }
 

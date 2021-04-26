@@ -104,16 +104,19 @@ class FragmentTv:Fragment(R.layout.tv_fragment) {
             if(loadState.source.refresh is LoadState.NotLoading &&
                 loadState.append.endOfPaginationReached && tvShowsAdapter.itemCount < 1){
 
-                rvShows.isVisible = false
-                tvNoResultsMovies.isVisible = true
-                searchAnimation.isVisible = true
-                searchAnimation.playAnimation()
-
+                    rvTvShows.isVisible = false
+                    tvNoResultsTv.isVisible = true
+                    searchAnimationTv.isVisible = true
+                    searchAnimationTv.playAnimation()
             }
             else{
-                tvNoResultsTv.isVisible = false
-                searchAnimationTv.isVisible = false
-                searchAnimationTv.pauseAnimation()
+
+
+                    tvNoResultsTv.isVisible = false
+                    searchAnimationTv.isVisible = false
+                    searchAnimationTv.pauseAnimation()
+
+
             }
 
         }
@@ -122,7 +125,7 @@ class FragmentTv:Fragment(R.layout.tv_fragment) {
     private fun refreshTvShows(){
         CoroutineScope(Dispatchers.Main).launch {
             tvShowsViewModel.updateSearchQuery("")
-            swipeToRefreshMovies.isRefreshing = false
+            swipeToRefreshTv.isRefreshing = false
         }
     }
 }

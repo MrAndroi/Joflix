@@ -153,6 +153,7 @@ class FragmentTvShowDetailsOne(private val tvShowID: Int):Fragment(R.layout.tv_d
     }
 
     private fun addGenreChips(genre: Genre){
+        tvShowTypeChips.removeAllViews()
         val chip = layoutInflater.inflate(R.layout.company_item, companiesChips, false) as Chip
         chip.text = genre.name
         val rnd = Random()

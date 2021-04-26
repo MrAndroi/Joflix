@@ -7,14 +7,14 @@ import androidx.room.Query
 import com.shorman.movies.api.models.others.RemoteKeys
 
 @Dao
-interface RemoteKeysDao {
+interface RemoteKeysMoviesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(remoteKey: List<RemoteKeys>)
 
-    @Query("SELECT * FROM remotekeys WHERE repoId = :id")
-    suspend fun remoteKeysDoggoId(id: String): RemoteKeys?
+    @Query("SELECT * FROM remote_keys_table_movie WHERE repoId = :id")
+    suspend fun remoteKeysMovieId(id: Int): RemoteKeys?
 
-    @Query("DELETE FROM remotekeys")
+    @Query("DELETE FROM remote_keys_table_movie")
     suspend fun clearRemoteKeys()
 }

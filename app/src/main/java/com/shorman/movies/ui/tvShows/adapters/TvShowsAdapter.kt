@@ -11,6 +11,7 @@ import coil.load
 import com.shorman.movies.others.Constans.FOOTER_VIEW_TYPE
 import com.shorman.movies.others.Constans.MOVIE_VIEW_TYPE
 import com.shorman.movies.R
+import com.shorman.movies.others.Constans.IMAGES_BASE_URL
 import kotlinx.android.synthetic.main.show_item.view.*
 
 class TvShowsAdapter(private val onClick:(tvShowID:Int) -> Unit)
@@ -29,7 +30,7 @@ class TvShowsAdapter(private val onClick:(tvShowID:Int) -> Unit)
 
         holder.itemView.apply{
             show?.let {showModel ->
-                showImage.load(showModel.poster_path){
+                showImage.load(IMAGES_BASE_URL+showModel.poster_path){
                     placeholder(R.drawable.place_holder)
                     error(R.drawable.place_holder)
                     crossfade(true)

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.shorman.movies.R
@@ -55,7 +56,10 @@ class MovieDetailsFragment:Fragment(R.layout.movie_details_fragment) {
             if(detailsPager != null){
                 animateViewPager(detailsPager)
             }
+        }
 
+        moviesDetailsBackBtn.setOnClickListener {
+            findNavController().navigateUp()
         }
 
     }

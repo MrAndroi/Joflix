@@ -11,6 +11,7 @@ import com.shorman.movies.others.Constans.FOOTER_VIEW_TYPE
 import com.shorman.movies.others.Constans.MOVIE_VIEW_TYPE
 import com.shorman.movies.R
 import com.shorman.movies.api.models.movie.MovieModel
+import com.shorman.movies.others.Constans.IMAGES_BASE_URL
 import kotlinx.android.synthetic.main.show_item.view.*
 
 class MoviesAdapter(private val onClick:(movieId:Int) -> Unit)
@@ -27,7 +28,7 @@ class MoviesAdapter(private val onClick:(movieId:Int) -> Unit)
 
         holder.itemView.apply{
             show?.let {movieModel ->
-                showImage.load(movieModel.poster_path){
+                showImage.load(IMAGES_BASE_URL+movieModel.poster_path){
                     placeholder(R.drawable.place_holder)
                     error(R.drawable.place_holder)
                     crossfade(true)

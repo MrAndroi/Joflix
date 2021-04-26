@@ -6,6 +6,11 @@ object Constans {
     const val IMAGES_BASE_URL = "https://image.tmdb.org/t/p/original"
     const val FOOTER_VIEW_TYPE = 2
     const val MOVIE_VIEW_TYPE = 1
+    const val DB_NAME = "joflix.db"
+    const val MOVIES_TABLE_NAME = "movies_table"
+    const val TV_SHOWS_TABLE_NAME = "tv_shows_table"
+    const val REMOTE_KEYS_TABLE_MOVIE = "remote_keys_table_movie"
+    const val REMOTE_KEYS_TABLE_SHOWS = "remote_keys_table_shows"
     const val LANGUAGE_CODES = " [\n" +
             "      {\"code\":\"ab\",\"name\":\"Abkhaz\",\"nativeName\":\"аҧсуа\"},\n" +
             "      {\"code\":\"aa\",\"name\":\"Afar\",\"nativeName\":\"Afaraf\"},\n" +

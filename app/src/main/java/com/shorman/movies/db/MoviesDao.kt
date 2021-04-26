@@ -13,10 +13,10 @@ interface MoviesDao {
     @Insert(onConflict = REPLACE)
     suspend fun insertAllMovies(moviesList:ArrayList<MovieModel>)
 
-    @Query("SELECT * FROM moviemodel")
+    @Query("SELECT * FROM movies_table")
     fun getAllMovies():PagingSource<Int,MovieModel>
 
-    @Query("DELETE FROM moviemodel")
+    @Query("DELETE FROM movies_table")
     suspend fun clearAllMovies()
 
 }

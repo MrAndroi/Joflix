@@ -18,10 +18,6 @@ class MoviesPagingSource(private val moviesApi: MoviesApi, private val query:Str
             if(query == ""){
                 val response = moviesApi.getLatestMovies(page = position)
                 val movies = response.results
-                movies.map {
-                    it.poster_path = IMAGES_BASE_URL+it.poster_path
-                }
-
                 LoadResult.Page(
                         data = movies,
                         prevKey = if (position == MOVIE_STARTING_PAGE_INDEX) null else position - 1,

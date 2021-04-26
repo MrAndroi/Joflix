@@ -2,6 +2,8 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/</item>
+        <item>@font/black_ops_one</item>
+        <item>@font/candal</item>
         <item>@font/carme</item>
         <item>@font/karla</item>
     </array>
