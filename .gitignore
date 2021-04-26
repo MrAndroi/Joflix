@@ -13,4 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
-
+/app/src/main/java/com/shorman/movies/others/Constans.kt

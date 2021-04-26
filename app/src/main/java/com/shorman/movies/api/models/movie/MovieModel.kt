@@ -1,8 +1,12 @@
 package com.shorman.movies.api.models.movie
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class MovieModel(
     val adult: Boolean,
-    val id: Int,
+    @PrimaryKey val id: Int,
     val original_title: String,
     val overview: String,
     var poster_path: String,

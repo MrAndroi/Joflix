@@ -95,6 +95,11 @@ dependencies {
 
     //date picker
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+
+    //room db
+    implementation "androidx.room:room-runtime:2.3.0-alpha02"
+    implementation "androidx.room:room-ktx:2.3.0-alpha02"
+    kapt "androidx.room:room-compiler:2.3.0-alpha02"
 }
 
 kapt {
