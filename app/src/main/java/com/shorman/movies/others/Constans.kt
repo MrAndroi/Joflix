@@ -2,7 +2,7 @@ package com.shorman.movies.others
 
 object Constans {
     const val BASE_URL = "https://api.themoviedb.org/3/"
-    const val API_KEY = "0a4426fba341b4da97d9db1e0442993a"
+    const val API_KEY = "YOUR_API_KEY"
     const val IMAGES_BASE_URL = "https://image.tmdb.org/t/p/original"
     const val FOOTER_VIEW_TYPE = 2
     const val MOVIE_VIEW_TYPE = 1
