@@ -27,9 +27,6 @@ class FragmentTvShowDetails:Fragment(R.layout.tv_details_fragment) {
         tvShowPagerAdapter = ViewPagerAdapter(childFragmentManager,lifecycle,fragmentArrayList)
         detailsPagerTv.adapter = tvShowPagerAdapter
 
-        tvShowDetailsBackBtn.setOnClickListener {
-            findNavController().navigateUp()
-        }
 
     }
 

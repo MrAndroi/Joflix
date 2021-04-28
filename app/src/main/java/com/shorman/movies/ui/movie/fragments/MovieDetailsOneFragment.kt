@@ -1,7 +1,6 @@
 package com.shorman.movies.ui.movie.fragments
 
 import android.annotation.SuppressLint
-import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import coil.load
+import com.airbnb.lottie.LottieDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialContainerTransform
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
@@ -99,6 +99,14 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
 
         playTrailerBtn.setOnClickListener {
             initYouTubePlayerView(movieVideoCode)
+        }
+
+        moviesDetailsOneBackBtn.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        btnSaveMovie.setOnClickListener{
+            moviesViewModel.toggleSave()
         }
     }
 
@@ -214,6 +222,22 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
                 movieDetailsOneContainer.setOnClickListener(null)
             }
         }
+
+        moviesViewModel.saveState.observe(viewLifecycleOwner){
+            if(it){
+                btnSaveMovie.setMaxProgress(0.5f)
+                btnSaveMovie.speed = -1f
+                btnSaveMovie.repeatMode = LottieDrawable.REVERSE
+                btnSaveMovie.playAnimation()
+            }
+            else{
+                btnSaveMovie.progress = 0.0f
+                btnSaveMovie.speed = 1f
+                btnSaveMovie.repeatMode = LottieDrawable.RESTART
+                btnSaveMovie.playAnimation()
+            }
+
+        }
     }
 
     private fun setUpViews(movieDetails: MovieDetails){
@@ -286,6 +310,22 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
                 tvReleaseDate.isVisible = true
             }
         })
+    }
+
+    private fun makeSaveAnimation(){
+        if(btnSaveMovie.progress == 0.8f){
+            btnSaveMovie.progress = 0.07f
+            btnSaveMovie.speed = -1f
+            btnSaveMovie.repeatMode = LottieDrawable.REVERSE
+            btnSaveMovie.playAnimation()
+
+        }
+        else{
+            btnSaveMovie.progress = 0.8f
+            btnSaveMovie.speed = 1f
+            btnSaveMovie.repeatMode = LottieDrawable.RESTART
+            btnSaveMovie.playAnimation()
+        }
     }
 
 }

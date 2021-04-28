@@ -13,11 +13,11 @@
         <action
             android:id="@+id/action_findMoviesFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"
+            app:enterAnim="@anim/enter_animation"
+            app:exitAnim="@anim/exit_animation"
             app:launchSingleTop="true"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation"
             app:popUpTo="@id/findMoviesFragment" />
         <action
             android:id="@+id/action_findMoviesFragment_to_fragmentTvShowDetails"
@@ -42,9 +42,20 @@
         <action
             android:id="@+id/action_watchToNightFragment_to_movieRequirmentsFragment"
             app:destination="@id/movieRequirmentsFragment"
-            app:enterAnim="@android:anim/fade_out"
-            app:exitAnim="@android:anim/fade_out"
+            app:enterAnim="@anim/enter_animation_two"
+            app:exitAnim="@anim/exit_animation_two"
             app:launchSingleTop="true"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation"
+            app:popUpTo="@id/watchToNightFragment" />
+        <action
+            android:id="@+id/action_watchToNightFragment_to_tvRequirmentsFragment"
+            app:destination="@id/tvRequirmentsFragment"
+            app:enterAnim="@anim/enter_animation_two"
+            app:exitAnim="@anim/exit_animation_two"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation"
             app:popUpTo="@id/watchToNightFragment" />
     </fragment>
     <fragment
@@ -67,6 +78,8 @@
             app:enterAnim="@anim/enter_animation"
             app:exitAnim="@anim/exit_animation"
             app:launchSingleTop="false"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation"
             app:popUpTo="@id/movieRequirmentsFragment" />
     </fragment>
     <fragment
@@ -77,8 +90,38 @@
         <action
             android:id="@+id/action_lookingForMovieFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment"
+            app:enterAnim="@anim/enter_animation_two"
+            app:exitAnim="@anim/exit_animation_two"
             app:launchSingleTop="true"
-            app:popUpTo="@id/movieRequirmentsFragment" />
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation"
+            app:popUpTo="@id/lookingForMovieFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/tv_requirments_fragment"
+        android:id="@+id/tvRequirmentsFragment"
+        android:name="com.shorman.movies.ui.tvShows.fragments.TvRequirmentsFragment"
+        android:label="TvRequirmentsFragment" >
+        <action
+            android:id="@+id/action_tvRequirmentsFragment_to_lookingForTvShowFragment"
+            app:destination="@id/lookingForTvShowFragment"
+            app:enterAnim="@anim/enter_animation"
+            app:exitAnim="@anim/exit_animation"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation"
+            app:popUpTo="@id/tvRequirmentsFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/looking_for_tv_fragment"
+        android:id="@+id/lookingForTvShowFragment"
+        android:name="com.shorman.movies.ui.tvShows.fragments.LookingForTvShowFragment"
+        android:label="LookingForTvShowFragment" >
+        <action
+            android:id="@+id/action_lookingForTvShowFragment_to_fragmentTvShowDetails"
+            app:destination="@id/fragmentTvShowDetails"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/lookingForTvShowFragment" />
     </fragment>
 
 

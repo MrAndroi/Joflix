@@ -18,6 +18,7 @@ class MoviesViewModel @ViewModelInject constructor(private val repo:Repository):
     val currentQuery = MutableLiveData("")
     val movieSearchModel = MutableLiveData(MovieSearchModel())
     private val currentMovieID = MutableLiveData(1)
+    val saveState = MutableLiveData(false)
 
     val actorsDialogVisible = MutableLiveData(false)
 
@@ -147,6 +148,10 @@ class MoviesViewModel @ViewModelInject constructor(private val repo:Repository):
 
     fun changeActorsDialogVisiblity(visible:Boolean) {
         actorsDialogVisible.postValue(visible)
+    }
+
+    fun toggleSave(){
+        saveState.postValue(saveState.value?.not())
     }
 
 

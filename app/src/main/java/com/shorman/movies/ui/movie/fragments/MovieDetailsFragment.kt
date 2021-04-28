@@ -58,9 +58,7 @@ class MovieDetailsFragment:Fragment(R.layout.movie_details_fragment) {
             }
         }
 
-        moviesDetailsBackBtn.setOnClickListener {
-            findNavController().navigateUp()
-        }
+
 
     }
 

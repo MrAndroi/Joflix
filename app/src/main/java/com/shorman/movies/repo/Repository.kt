@@ -87,4 +87,14 @@ class Repository @Inject constructor(private val moviesApi: MoviesApi,private va
 
     suspend fun getTvShowVideos(tvShowID: Int) = tvShowsApi.getTvShowVideos(tvShowID)
 
+    suspend fun getRandomTvShow(
+        language: String ="",
+        genres:String ="",
+        watchType:String ="",
+        minimumRealseDate:String="",
+        minimumRating:Float=0f,
+    ) = tvShowsApi.getRandomTvShow(
+        language,genres,watchType,minimumRealseDate,minimumRating
+    )
+
 }

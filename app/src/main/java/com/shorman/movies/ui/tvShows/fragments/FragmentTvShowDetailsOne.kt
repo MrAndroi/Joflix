@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import coil.load
+import com.airbnb.lottie.LottieDrawable
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
@@ -81,6 +82,12 @@ class FragmentTvShowDetailsOne(private val tvShowID: Int):Fragment(R.layout.tv_d
         playShowTrailerBtn.setOnClickListener{
             initYouTubePlayerView(showVideoID)
         }
+
+        tvShowDetailsBackBtn.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+
 
     }
 
