@@ -10,11 +10,13 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.paging.LoadStates
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.shorman.movies.R
 import com.shorman.movies.adapters.LoadStatusAdapter
 import com.shorman.movies.others.Constans.FOOTER_VIEW_TYPE
 import com.shorman.movies.ui.fragments.FindMoviesFragmentDirections
 import com.shorman.movies.ui.tvShows.adapters.TvShowsAdapter
+import com.shorman.movies.utils.hideKeyboard
 import com.shorman.movies.viewModels.TvShowsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.movies_fragment.*
@@ -29,6 +31,7 @@ class FragmentTv:Fragment(R.layout.tv_fragment) {
     lateinit var tvShowsViewModel:TvShowsViewModel
     lateinit var gridLayoutManager: GridLayoutManager
     lateinit var tvShowsAdapter: TvShowsAdapter
+    private lateinit var onScrollListener: RecyclerView.OnScrollListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +39,15 @@ class FragmentTv:Fragment(R.layout.tv_fragment) {
         tvShowsViewModel = ViewModelProvider(requireActivity()).get(TvShowsViewModel::class.java)
         gridLayoutManager = GridLayoutManager(requireContext(),2)
         tvShowsAdapter = TvShowsAdapter {
-            tvShowsViewModel.updateCurrentShowID(it)
             val direction = FindMoviesFragmentDirections.actionFindMoviesFragmentToFragmentTvShowDetails(it)
             findNavController().navigate(direction)
+        }
+        onScrollListener = object : RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if(newState == RecyclerView.SCROLL_STATE_DRAGGING){
+                    hideKeyboard()
+                }
+            }
         }
     }
 
@@ -81,6 +90,7 @@ class FragmentTv:Fragment(R.layout.tv_fragment) {
                 tvShowsAdapter.retry()
             }
         )
+        rvTvShows.addOnScrollListener(onScrollListener)
 
     }
 
@@ -88,18 +98,6 @@ class FragmentTv:Fragment(R.layout.tv_fragment) {
         tvShowsAdapter.addLoadStateListener { loadState ->
             progressBarTv.isVisible = loadState.source.refresh is LoadState.Loading
             rvTvShows.isVisible = loadState.source.refresh is LoadState.NotLoading
-
-            if(loadState.source.refresh is LoadState.Error){
-                tvErrorTvShows.isVisible = true
-                networkAnimationTv.isVisible = true
-                networkAnimationTv.playAnimation()
-            }
-            else{
-                tvErrorTvShows.isVisible = false
-                networkAnimationTv.isVisible = false
-                networkAnimationTv.pauseAnimation()
-
-            }
 
             if(loadState.source.refresh is LoadState.NotLoading &&
                 loadState.append.endOfPaginationReached && tvShowsAdapter.itemCount < 1){
@@ -127,5 +125,10 @@ class FragmentTv:Fragment(R.layout.tv_fragment) {
             tvShowsViewModel.updateSearchQuery("")
             swipeToRefreshTv.isRefreshing = false
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        rvTvShows.removeOnScrollListener(onScrollListener)
     }
 }

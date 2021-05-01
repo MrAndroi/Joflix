@@ -120,19 +120,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvHomePage" />
 
-    <ImageButton
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/btnSaveTvShow"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="?selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvShowImage"
-        app:srcCompat="@drawable/save_icon" />
+        app:lottie_rawRes="@raw/save_animations" />
 
     <ImageButton
         android:id="@+id/btnSendMovie"

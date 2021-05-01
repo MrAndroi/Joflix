@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -15,6 +16,7 @@ import com.shorman.movies.adapters.ViewPagerAdapter
 import com.shorman.movies.viewModels.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.movie_details_fragment.*
+import kotlinx.android.synthetic.main.movie_details_one.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -26,26 +28,46 @@ class MovieDetailsFragment:Fragment(R.layout.movie_details_fragment) {
 
     private val args: MovieDetailsFragmentArgs by navArgs()
     private val  fragmentList:ArrayList<Fragment> by lazy {
-        arrayListOf(MovieDetailsOneFragment(args.movieId), MovieDetailsTwoFragment(args.movieId))
+        arrayListOf(MovieDetailsOneFragment(args.movieId), MovieDetailsTwoFragment())
     }
     private lateinit var pagerAdapter: ViewPagerAdapter
     private val animator = ValueAnimator()
     private var animFactor = 0
     private lateinit var moviesViewModel: MoviesViewModel
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.remove()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         moviesViewModel = ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
         moviesViewModel.getMovieDetails(args.movieId)
+        moviesViewModel.changeMovieID(args.movieId)
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        onBackPressedCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if (trailerVideo.isFullScreen()) {
+                    trailerVideo.exitFullScreen()
+                }
+                else{
+                    findNavController().navigateUp()
+                }
+            }
+        }
+        activity?.onBackPressedDispatcher?.addCallback(onBackPressedCallback)
+
         pagerAdapter = ViewPagerAdapter(
-            childFragmentManager,
+            activity?.supportFragmentManager!!,
             lifecycle,
             fragmentList
         )

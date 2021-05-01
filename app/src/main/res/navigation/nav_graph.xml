@@ -18,21 +18,26 @@
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/pop_enter_animation"
             app:popExitAnim="@anim/pop_exit_animation"
-            app:popUpTo="@id/findMoviesFragment" />
+            app:popUpTo="@id/findMoviesFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_findMoviesFragment_to_fragmentTvShowDetails"
             app:destination="@id/fragmentTvShowDetails"
             app:launchSingleTop="true"
-            app:popUpTo="@id/findMoviesFragment" />
+            app:popUpTo="@id/findMoviesFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
-        tools:layout="@layout/movie_details_fragment"
         android:name="com.shorman.movies.ui.movie.fragments.MovieDetailsFragment"
-        android:label="MovieDetailsFragment" >
+        android:label="MovieDetailsFragment"
+        tools:layout="@layout/movie_details_fragment">
         <argument
             android:name="movieId"
             app:argType="integer" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="http://www.joflix.com/movies/{movieId}" />
     </fragment>
     <fragment
         android:id="@+id/watchToNightFragment"
@@ -123,6 +128,11 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/lookingForTvShowFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/savedFragment"
+        tools:layout="@layout/saved_fragment"
+        android:name="com.shorman.movies.ui.fragments.SavedFragment"
+        android:label="SavedFragment" />
 
 
 </navigation>

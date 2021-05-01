@@ -8,6 +8,7 @@ import com.shorman.movies.api.models.movie.MoviesResponse
 import com.shorman.movies.api.models.others.ReviewsResponse
 import com.shorman.movies.api.models.others.VideosResponse
 import com.shorman.movies.api.models.tvshows.TvShowDetails
+import com.shorman.movies.api.models.tvshows.TvShowModel
 import com.shorman.movies.api.models.tvshows.TvShowsResponse
 import com.shorman.movies.repo.Repository
 import com.shorman.movies.utils.Resource
@@ -17,8 +18,10 @@ import retrofit2.http.Query
 class TvShowsViewModel @ViewModelInject constructor(private val repo:Repository):ViewModel() {
 
     val currentQuery = MutableLiveData("")
-    val currentShowID = MutableLiveData(1)
+    private val currentShowID = MutableLiveData(1)
     val movieSearchModel = MutableLiveData(MovieSearchModel())
+    val savedTvShows = repo.getAllTvShows()
+    val saveState = MutableLiveData(false)
 
     private val _currentShowDetails = MutableLiveData<Resource<TvShowDetails>>()
     val currentShowDetails:LiveData<Resource<TvShowDetails>>
@@ -45,19 +48,16 @@ class TvShowsViewModel @ViewModelInject constructor(private val repo:Repository)
         _currentShowDetails.postValue(Resource.loading(null))
 
         val result = repo.getTvShowDetails(tvShowID)
-        if(result.isSuccessful){
-            val videoResponse = repo.getTvShowVideos(tvShowID)
-            val reviewsResponse = repo.getTvShowReviews(tvShowID)
-            if(videoResponse.isSuccessful) {
-                _currentShowVideos.postValue(videoResponse.body())
-            }
+        val videosResponse = repo.getTvShowVideos(tvShowID)
+
+        if(result.isSuccessful && videosResponse.isSuccessful){
             _currentShowDetails.postValue(Resource.success(result.body()))
+            _currentShowVideos.postValue(videosResponse.body())
         }
         else{
             _currentShowDetails.postValue(Resource.error(result.message(),null))
         }
     }
-
 
     fun getRandomShows(
         language: String ="",
@@ -74,6 +74,26 @@ class TvShowsViewModel @ViewModelInject constructor(private val repo:Repository)
         }
         else{
             _randomTvShowList.postValue(Resource.error(result.message(),null))
+        }
+    }
+
+    fun insertTvShow(tvShow:TvShowModel) = viewModelScope.launch {
+        repo.insertTvShow(tvShow)
+    }
+
+    fun deleteTvShow(tvShow:TvShowModel) = viewModelScope.launch {
+        repo.deleteTvShow(tvShow)
+    }
+
+    fun checkIfTvShowSaved(tvShowID:Int){
+        viewModelScope.launch {
+            val result = repo.checkIfTvShowSaved(tvShowID)
+            if(result == null){
+                saveState.postValue(false)
+            }
+            else{
+                saveState.postValue(true)
+            }
         }
     }
 

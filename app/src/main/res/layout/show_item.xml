@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    android:background="?selectableItemBackgroundBorderless">
+    android:background="?attr/selectableItemBackground"
+    android:theme="@style/Base.ThemeOverlay.AppCompat.Dark">
 
 
     <ImageView

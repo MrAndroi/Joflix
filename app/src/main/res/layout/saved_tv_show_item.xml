@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:background="@color/black">
+
+    <ImageView
+        android:id="@+id/savedTvShowImage"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/test" />
+
+    <TextView
+        android:id="@+id/savedTvShowName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="The avengers"
+        android:textColor="#DCDCDC"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/savedTvShowImage" />
+
+    <TextView
+        android:id="@+id/savedTvShowOverView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="thi is season over view for this movie name i dont know what im typing ahahaha"
+        android:textColor="#C5C5C5"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/savedTvShowName"
+        app:layout_constraintTop_toBottomOf="@+id/savedTvShowName" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/small_dot"
+        app:layout_constraintBottom_toBottomOf="@+id/savedTvShowName"
+        app:layout_constraintStart_toEndOf="@+id/savedTvShowName"
+        app:layout_constraintTop_toTopOf="@+id/savedTvShowName" />
+
+    <TextView
+        android:id="@+id/savedTvShowDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="16/4/2020"
+        android:textColor="#C5C5C5"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/savedTvShowName"
+        app:layout_constraintStart_toEndOf="@+id/view2"
+        app:layout_constraintTop_toTopOf="@+id/savedTvShowName" />
+
+    <TextView
+        android:id="@+id/savedTvShowRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="5.5"
+        android:textColor="#C5C5C5"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/savedTvShowOverView"
+        app:layout_constraintTop_toBottomOf="@+id/savedTvShowOverView" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/btnRemoveTvShow"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/savedTvShowOverView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_progress="0.5"
+        app:lottie_rawRes="@raw/save_animations" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="20dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/savedTvShowRate"
+        app:layout_constraintStart_toEndOf="@+id/savedTvShowRate"
+        app:layout_constraintTop_toTopOf="@+id/savedTvShowRate"
+        app:srcCompat="@drawable/star_icon" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

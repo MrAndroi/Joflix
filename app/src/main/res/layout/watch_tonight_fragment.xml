@@ -8,30 +8,32 @@
 
     <ImageButton
         android:id="@+id/movieBtn"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="150dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="?selectableItemBackgroundBorderless"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
-        android:scaleType="fitXY"
+        android:scaleType="centerInside"
         android:src="@drawable/movie_vector"
-        app:layout_constraintEnd_toStartOf="@+id/seriesBtn"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
     <ImageButton
         android:id="@+id/seriesBtn"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="150dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="?selectableItemBackgroundBorderless"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
-        android:scaleType="fitXY"
+        android:scaleType="centerInside"
         android:src="@drawable/series_vector"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -43,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.35" />
+        app:layout_constraintGuide_percent="0.38" />
 
     <TextView
         android:id="@+id/textView5"
@@ -51,13 +53,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/karla"
         android:text="What you like to watch tonight?"
         android:textAlignment="viewStart"
-        android:textColor="#DADADA"
+        android:textColor="@color/white"
         android:textSize="24sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -87,6 +88,13 @@
         app:layout_constraintEnd_toEndOf="@+id/seriesBtn"
         app:layout_constraintStart_toStartOf="@+id/seriesBtn"
         app:layout_constraintTop_toBottomOf="@+id/seriesBtn" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

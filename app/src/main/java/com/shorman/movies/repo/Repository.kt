@@ -4,6 +4,8 @@ package com.shorman.movies.repo
 import androidx.paging.*
 import com.shorman.movies.api.MoviesApi
 import com.shorman.movies.api.TvShowsApi
+import com.shorman.movies.api.models.movie.MovieModel
+import com.shorman.movies.api.models.tvshows.TvShowModel
 import com.shorman.movies.api.pagingSource.*
 import com.shorman.movies.db.AppDatabase
 import javax.inject.Inject
@@ -18,18 +20,6 @@ class Repository @Inject constructor(private val moviesApi: MoviesApi,private va
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { MoviesPagingSource(moviesApi, searchKeyword) }
-        ).liveData
-
-    @ExperimentalPagingApi
-    fun searchForMovies2(searchKeyword: String) =
-        Pager(
-            config = PagingConfig(
-                pageSize = 10,
-                maxSize = 40,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = {database.getMoviesDao().getAllMovies()},
-            remoteMediator = MoviesMediator(moviesApi,database,searchKeyword)
         ).liveData
 
     fun getMovieComments(movieID: Int) = Pager(
@@ -60,6 +50,15 @@ class Repository @Inject constructor(private val moviesApi: MoviesApi,private va
     ) = moviesApi.getRandomMovie(
         language,genres,watchType,minimumRealseDate,minimumRating
     )
+
+    suspend fun insertMovie(movieModel: MovieModel) = database.getMoviesDao().insertMovie(movieModel)
+
+    suspend fun deleteMovie(movieModel: MovieModel) = database.getMoviesDao().deleteMovie(movieModel)
+
+    suspend fun checkIfMovieSaved(movieID: Int) = database.getMoviesDao().checkIfMovieSaved(movieID)
+
+    fun getAllSavedMovies() = database.getMoviesDao().getAllMovies()
+
 
     //////////////////////STARTING TV SHOWS FUNCTIONS HERE/////////////////////////////
 
@@ -96,5 +95,13 @@ class Repository @Inject constructor(private val moviesApi: MoviesApi,private va
     ) = tvShowsApi.getRandomTvShow(
         language,genres,watchType,minimumRealseDate,minimumRating
     )
+
+    suspend fun insertTvShow(tvShow:TvShowModel) = database.getTvShowsDao().insertTvShow(tvShow)
+
+    suspend fun deleteTvShow(tvShow:TvShowModel) = database.getTvShowsDao().deleteTvShow(tvShow)
+
+    suspend fun checkIfTvShowSaved(showID:Int) = database.getTvShowsDao().checkIfTvShowSaved(showID)
+
+    fun getAllTvShows() = database.getTvShowsDao().getAllTvShows()
 
 }

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -26,6 +27,7 @@ import com.shorman.movies.R
 import com.shorman.movies.adapters.CastAdapter
 import com.shorman.movies.api.models.others.Cast
 import com.shorman.movies.api.models.movie.MovieDetails
+import com.shorman.movies.api.models.movie.MovieModel
 import com.shorman.movies.utils.Status
 import com.shorman.movies.viewModels.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,19 +45,12 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
     private lateinit var moviesViewModel:MoviesViewModel
     private lateinit var castAdapter:CastAdapter
     private var movieVideoCode = ""
+    private lateinit var movieModel: MovieModel
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var currentActorView:View
-    private lateinit var onBackPressedCallback:OnBackPressedCallback
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        onBackPressedCallback.isEnabled = false
-        onBackPressedCallback.remove()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         moviesViewModel = ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
         linearLayoutManager = LinearLayoutManager(
@@ -64,30 +59,14 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
             false
         )
 
-        getAllMovieData()
+        moviesViewModel.checkIfMovieSaved(movieId)
+        movieModel = MovieModel()
 
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        onBackPressedCallback = object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                if(trailerVideo!= null){
-                    if (trailerVideo.isFullScreen()) {
-                        trailerVideo.exitFullScreen()
-                    }
-                    else{
-                        findNavController().navigateUp()
-                    }
-                }
-                else{
-                    findNavController().navigateUp()
-                }
-            }
-        }
-        activity?.onBackPressedDispatcher?.addCallback(onBackPressedCallback)
 
         castAdapter = CastAdapter{ actor, actorView ->
             currentActorView = actorView
@@ -106,60 +85,19 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
         }
 
         btnSaveMovie.setOnClickListener{
-            moviesViewModel.toggleSave()
+           if(moviesViewModel.saveState.value == true){
+               moviesViewModel.deleteMovie(movieModel)
+               moviesViewModel.checkIfMovieSaved(movieId)
+           }
+           else{
+               moviesViewModel.insertMovie(movieModel)
+               moviesViewModel.checkIfMovieSaved(movieId)
+               Snackbar.make(requireView(),"${movieModel.original_title} saved successfully",2000)
+                   .setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+                   .setBackgroundTint(ContextCompat.getColor(requireContext(),R.color.medium_orange))
+                   .show()
+           }
         }
-    }
-
-    private fun openActorDetailsDialog(item: View, actor: Cast){
-        val transform = MaterialContainerTransform().apply {
-            startView = item
-            endView  = actorDetailsDialog
-            duration = 500
-            scrimColor = Color.TRANSPARENT
-            addTarget(actorDetailsDialog)
-        }
-        actorDetailsDialog.visibility = View.VISIBLE
-        moviesViewModel.changeActorsDialogVisiblity(true)
-        tvActorName.text = actor.name
-        if(actor.gender == 1){
-            tvActorGender.text = "Gender: female"
-        }
-        else{
-            tvActorGender.text = "Gender: male"
-        }
-
-        tvActorCharacher.text = "Character: ${actor.character}"
-        actorImageDialog.load(IMAGES_BASE_URL + actor.profile_path){
-            placeholder(R.drawable.actor_loading)
-        }
-        TransitionManager.beginDelayedTransition(movieDetailsOneContainer, transform)
-
-    }
-
-    private fun exitActorDetailsDialog(item: View){
-        val transform = MaterialContainerTransform().apply {
-            startView = actorDetailsDialog
-            endView  = item
-            duration = 500
-            scrimColor = Color.TRANSPARENT
-            addTarget(item)
-        }
-        actorDetailsDialog.visibility = View.INVISIBLE
-        moviesViewModel.changeActorsDialogVisiblity(false)
-
-        TransitionManager.beginDelayedTransition(movieDetailsOneContainer, transform)
-
-    }
-
-    private fun getAllMovieData(){
-        moviesViewModel.getMovieActors(movieId)
-        moviesViewModel.getMovieVideos(movieId)
-    }
-
-    private fun setUpActorsRecyclerView(){
-        rvActors.setHasFixedSize(true)
-        rvActors.layoutManager = linearLayoutManager
-        rvActors.adapter = castAdapter
     }
 
     private fun subscribeToObservers(){
@@ -170,6 +108,7 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
                 }
                 Status.SUCCESS -> {
                     it.data?.let { movieDetails ->
+                        movieModel = mapToMovieModel(movieDetails)
                         setUpViews(movieDetails)
                         progressBarMovieDetailsOne.isVisible = false
                     }
@@ -226,18 +165,63 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
         moviesViewModel.saveState.observe(viewLifecycleOwner){
             if(it){
                 btnSaveMovie.setMaxProgress(0.5f)
-                btnSaveMovie.speed = -1f
-                btnSaveMovie.repeatMode = LottieDrawable.REVERSE
+                btnSaveMovie.speed = 1.5f
                 btnSaveMovie.playAnimation()
             }
             else{
-                btnSaveMovie.progress = 0.0f
-                btnSaveMovie.speed = 1f
-                btnSaveMovie.repeatMode = LottieDrawable.RESTART
+                btnSaveMovie.setMaxProgress(0.4f)
+                btnSaveMovie.speed = -1.5f
                 btnSaveMovie.playAnimation()
             }
-
         }
+    }
+
+    private fun openActorDetailsDialog(item: View, actor: Cast){
+        val transform = MaterialContainerTransform().apply {
+            startView = item
+            endView  = actorDetailsDialog
+            duration = 500
+            scrimColor = Color.TRANSPARENT
+            addTarget(actorDetailsDialog)
+        }
+        actorDetailsDialog.visibility = View.VISIBLE
+        moviesViewModel.changeActorsDialogVisiblity(true)
+        tvActorName.text = actor.name
+        if(actor.gender == 1){
+            tvActorGender.text = "Gender: female"
+        }
+        else{
+            tvActorGender.text = "Gender: male"
+        }
+
+        tvActorCharacher.text = "Character: ${actor.character}"
+        actorImageDialog.load(IMAGES_BASE_URL + actor.profile_path){
+            placeholder(R.drawable.actor_loading)
+            error(R.drawable.actor_loading)
+        }
+        TransitionManager.beginDelayedTransition(movieDetailsOneContainer, transform)
+
+    }
+
+    private fun exitActorDetailsDialog(item: View){
+        val transform = MaterialContainerTransform().apply {
+            startView = actorDetailsDialog
+            endView  = item
+            duration = 500
+            scrimColor = Color.TRANSPARENT
+            addTarget(item)
+        }
+        actorDetailsDialog.visibility = View.INVISIBLE
+        moviesViewModel.changeActorsDialogVisiblity(false)
+
+        TransitionManager.beginDelayedTransition(movieDetailsOneContainer, transform)
+
+    }
+
+    private fun setUpActorsRecyclerView(){
+        rvActors.setHasFixedSize(true)
+        rvActors.layoutManager = linearLayoutManager
+        rvActors.adapter = castAdapter
     }
 
     private fun setUpViews(movieDetails: MovieDetails){
@@ -312,19 +296,15 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
         })
     }
 
-    private fun makeSaveAnimation(){
-        if(btnSaveMovie.progress == 0.8f){
-            btnSaveMovie.progress = 0.07f
-            btnSaveMovie.speed = -1f
-            btnSaveMovie.repeatMode = LottieDrawable.REVERSE
-            btnSaveMovie.playAnimation()
-
-        }
-        else{
-            btnSaveMovie.progress = 0.8f
-            btnSaveMovie.speed = 1f
-            btnSaveMovie.repeatMode = LottieDrawable.RESTART
-            btnSaveMovie.playAnimation()
+    private fun mapToMovieModel(movieDetails: MovieDetails):MovieModel{
+        return MovieModel().apply {
+            id = movieDetails.id
+            adult = movieDetails.adult
+            original_title = movieDetails.title
+            overview = movieDetails.overview
+            poster_path = movieDetails.poster_path
+            release_date = movieDetails.release_date
+            vote_average = movieDetails.vote_average
         }
     }
 

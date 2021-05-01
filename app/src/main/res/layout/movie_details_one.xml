@@ -14,7 +14,8 @@
         android:layout_height="25dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:background="?selectableItemBackgroundBorderless"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
         android:clickable="true"
         android:focusable="true"
         android:scaleType="fitXY"
@@ -37,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="329dp" />
+        app:layout_constraintGuide_percent="0.3888889" />
 
     <View
         android:id="@+id/view"
@@ -69,30 +70,30 @@
         android:id="@+id/tvAdult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
         android:textColor="#C3C3C3"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSendMovie"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movieImage" />
+        app:layout_constraintTop_toTopOf="@+id/btnSendMovie" />
 
     <TextView
         android:id="@+id/tvMovieType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
         android:fontFamily="@font/karla"
         android:textColor="#C3C3C3"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvAdult"
         app:layout_constraintStart_toEndOf="@+id/tvAdult"
-        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+        app:layout_constraintTop_toTopOf="@+id/tvAdult" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/tvMovieType"
         app:layout_constraintStart_toEndOf="@+id/tvMovieType"
         app:layout_constraintTop_toTopOf="@+id/tvMovieType"
@@ -102,7 +103,7 @@
         android:id="@+id/tvRating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:fontFamily="@font/karla"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
@@ -112,8 +113,8 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/btnSaveMovie"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -125,7 +126,8 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginEnd="16dp"
-        android:background="?selectableItemBackground"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
         android:clickable="true"
         android:focusable="true"
         android:scaleType="fitXY"
@@ -210,7 +212,8 @@
         android:id="@+id/playTrailerBtn"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="?selectableItemBackgroundBorderless"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
         android:clickable="true"
         android:focusable="true"
         android:scaleType="fitXY"
@@ -265,8 +268,8 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginBottom="16dp"
-        android:visibility="invisible"
         android:background="@color/little_gray"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/rvActors"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -274,8 +277,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/actorContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/tvActorName"
