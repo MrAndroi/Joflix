@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Movies</string>
+    <string name="app_name">Joflix</string>
     <string-array name="watchTypes">
 
         <item>free</item>

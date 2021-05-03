@@ -38,6 +38,7 @@ interface MoviesApi {
     suspend fun getMovieActors(
         @Path("movie_id") movieID:Int,
         @Query("api_key") apiKey: String = API_KEY,
+        @Query("language") lang:String= "en"
     ):Response<ActorsResponse>
 
     @GET("movie/{movie_id}/videos")
@@ -50,18 +51,20 @@ interface MoviesApi {
     suspend fun getMovieImages(
         @Path("movie_id") movieID:Int,
         @Query("api_key") apiKey: String = API_KEY,
-    ):Response<MovieImageList>
+    ):MovieImageList
 
     @GET("movie/{movie_id}/reviews")
     suspend fun getMovieReviews(
         @Path("movie_id") movieID:Int,
         @Query("api_key") apiKey: String = API_KEY,
         @Query("page") page:Int,
+        @Query("language") lang:String = "en"
     ): ReviewsResponse
 
     @GET("genre/movie/list")
     suspend fun getMovieGenres(
-        @Query("api_key") apiKey:String = API_KEY
+        @Query("api_key") apiKey:String = API_KEY,
+        @Query("language") lang:String = "en"
     ):Response<GenresResponse>
 
     @GET("discover/movie")
@@ -72,7 +75,8 @@ interface MoviesApi {
         @Query("primary_release_date.gte") minimumReleaseDate:String="",
         @Query("vote_average.gte") minimumRating:Float=0f,
         @Query("api_key") apiKey: String = API_KEY,
-        @Query("page") page:Int = 1
+        @Query("page") page:Int = 1,
+        @Query("language") lang:String = "en"
     ):Response<MoviesResponse>
 
 }

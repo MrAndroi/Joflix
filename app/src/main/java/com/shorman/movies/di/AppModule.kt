@@ -1,6 +1,7 @@
 package com.shorman.movies.di
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import androidx.room.Room
 import com.shorman.movies.others.Constans.BASE_URL
 import com.shorman.movies.api.MoviesApi
@@ -54,5 +55,10 @@ object AppModule {
         Room.databaseBuilder(context,AppDatabase::class.java,DB_NAME)
             .fallbackToDestructiveMigration()
             .build()
+
+    @Provides
+    @Singleton
+    fun provideLanguageSharedPref(@ApplicationContext context: Context) =
+        context.getSharedPreferences("language",MODE_PRIVATE)
 
 }

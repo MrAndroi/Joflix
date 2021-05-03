@@ -3,6 +3,7 @@ package com.shorman.movies.ui.movie.fragments
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -32,6 +33,8 @@ class FragmentMovies:Fragment(R.layout.movies_fragment) {
     private lateinit var moviesViewModel:MoviesViewModel
     private lateinit var moviesAdapter: MoviesAdapter
     private lateinit var onScrollListener: RecyclerView.OnScrollListener
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
+    lateinit var gridLayoutManager:GridLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +52,26 @@ class FragmentMovies:Fragment(R.layout.movies_fragment) {
                 }
             }
         }
+        gridLayoutManager = GridLayoutManager(requireContext(),2)
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        onBackPressedCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if(gridLayoutManager.findFirstVisibleItemPosition() != 0){
+                    gridLayoutManager.smoothScrollToPosition(rvShows,RecyclerView.State(),0)
+                }
+                else{
+                    activity?.finish()
+                }
+            }
+
+        }
+        activity?.onBackPressedDispatcher!!.addCallback(onBackPressedCallback)
+
 
         setUpRecyclerView()
         setUpObservers()
@@ -67,7 +85,6 @@ class FragmentMovies:Fragment(R.layout.movies_fragment) {
     }
 
     private fun setUpRecyclerView(){
-        val gridLayoutManager = GridLayoutManager(requireContext(),2)
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
             override fun getSpanSize(position: Int): Int {
                 val viewType = moviesAdapter.getItemViewType(position)
@@ -128,6 +145,8 @@ class FragmentMovies:Fragment(R.layout.movies_fragment) {
     override fun onDestroyView() {
         super.onDestroyView()
         rvShows.removeOnScrollListener(onScrollListener)
+        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.remove()
     }
 
 }

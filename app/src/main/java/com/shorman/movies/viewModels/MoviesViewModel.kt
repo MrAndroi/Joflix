@@ -11,6 +11,7 @@ import com.shorman.movies.api.models.others.VideosResponse
 import com.shorman.movies.repo.Repository
 import com.shorman.movies.utils.Resource
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 
 class MoviesViewModel @ViewModelInject constructor(private val repo:Repository):ViewModel() {
@@ -63,22 +64,29 @@ class MoviesViewModel @ViewModelInject constructor(private val repo:Repository):
         _currentMovieVideos.postValue(Resource.loading(null))
         _currentMovieImages.postValue(Resource.loading(null))
 
+
         val result = repo.getMovieDetails(movieID)
         val actorsResponse = repo.getMovieActors(movieID)
         val videosResponse = repo.getMovieVideos(movieID)
-        val imagesResponse = repo.getMovieImages(movieID)
+
+
+        try{
+            val imagesResponse = repo.getMovieImages(movieID)
+            _currentMovieImages.postValue(Resource.success(imagesResponse))
+        }catch (e:HttpException){
+            _currentMovieImages.postValue(Resource.error(e.message(),null))
+
+        }
 
         if(result.isSuccessful && actorsResponse.isSuccessful && videosResponse.isSuccessful){
             _currentMovieDetails.postValue(Resource.success(result.body()))
             _currentMovieActors.postValue(Resource.success(actorsResponse.body()))
             _currentMovieVideos.postValue(Resource.success(videosResponse.body()))
-            _currentMovieImages.postValue(Resource.success(imagesResponse.body()))
         }
         else{
             _currentMovieDetails.postValue(Resource.error(result.message(),null))
             _currentMovieActors.postValue(Resource.error(actorsResponse.message(),null))
             _currentMovieVideos.postValue(Resource.error(videosResponse.message(),null))
-            _currentMovieImages.postValue(Resource.error(imagesResponse.message(),null))
         }
 
     }

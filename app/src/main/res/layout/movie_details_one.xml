@@ -28,8 +28,9 @@
         android:id="@+id/movieImage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintBottom_toTopOf="@+id/tvAdult"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -138,13 +139,17 @@
 
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
         android:fontFamily="@font/karla"
+        android:maxLines="1"
         android:textColor="#ECECEC"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
@@ -227,17 +232,18 @@
         android:id="@+id/trailerVideo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
         android:visibility="invisible"
-        app:useWebUi="false"
-        app:showVideoDuration="true"
-        app:showSeekBar="true"
         app:enableAutomaticInitialization="true"
-        app:showFullScreenButton="true"
-        app:showYouTubeButton="false"
-        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintBottom_toTopOf="@+id/tvAdult"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent"
+        app:showFullScreenButton="true"
+        app:showSeekBar="true"
+        app:showVideoDuration="true"
+        app:showYouTubeButton="false"
+        app:useWebUi="false">
 
     </com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>
 
@@ -269,7 +275,7 @@
         android:layout_height="300dp"
         android:layout_marginBottom="16dp"
         android:background="@color/little_gray"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/rvActors"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

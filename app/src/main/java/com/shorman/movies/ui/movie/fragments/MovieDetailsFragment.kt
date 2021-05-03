@@ -6,10 +6,13 @@ import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.navigateUp
+import androidx.transition.TransitionInflater
 import androidx.viewpager2.widget.ViewPager2
 import com.shorman.movies.R
 import com.shorman.movies.adapters.ViewPagerAdapter
@@ -79,8 +82,6 @@ class MovieDetailsFragment:Fragment(R.layout.movie_details_fragment) {
                 animateViewPager(detailsPager)
             }
         }
-
-
 
     }
 

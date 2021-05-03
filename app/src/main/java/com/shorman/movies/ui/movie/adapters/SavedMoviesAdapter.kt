@@ -3,6 +3,10 @@ package com.shorman.movies.ui.movie.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +14,7 @@ import coil.load
 import com.shorman.movies.R
 import com.shorman.movies.api.models.movie.MovieModel
 import com.shorman.movies.others.Constans.IMAGES_BASE_URL
+import com.shorman.movies.ui.fragments.SavedFragmentDirections
 import kotlinx.android.synthetic.main.saved_movie_item.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

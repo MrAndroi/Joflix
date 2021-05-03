@@ -1,18 +1,21 @@
 package com.shorman.movies.ui.movie.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
 import androidx.transition.TransitionManager
 import coil.load
 import com.airbnb.lottie.LottieDrawable
@@ -32,6 +35,9 @@ import com.shorman.movies.utils.Status
 import com.shorman.movies.viewModels.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.movie_details_one.*
+import kotlinx.android.synthetic.main.movie_details_one.btnSendMovie
+import kotlinx.android.synthetic.main.movie_details_one.movieDetailsOneContainer
+import kotlinx.android.synthetic.main.tv_details_one.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -95,8 +101,17 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
                Snackbar.make(requireView(),"${movieModel.original_title} saved successfully",2000)
                    .setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
                    .setBackgroundTint(ContextCompat.getColor(requireContext(),R.color.medium_orange))
+                   .setActionTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+                   .setAction("Saves"){
+                       val direction = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToSavedFragment()
+                       findNavController().navigate(direction)
+                   }
                    .show()
            }
+        }
+
+        btnSendMovie.setOnClickListener {
+            sendMovie(movieModel)
         }
     }
 
@@ -306,6 +321,20 @@ class MovieDetailsOneFragment(private val movieId: Int):Fragment(R.layout.movie_
             release_date = movieDetails.release_date
             vote_average = movieDetails.vote_average
         }
+    }
+
+    private fun sendMovie(movie:MovieModel){
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, "Check out this movie on Joflix \uD83C\uDF7F\uD83D\uDE00 \n\nMovie name: " +
+                    "${movie.original_title}\n\nMovie rate: ${movie.vote_average} \uD83C\uDFC6" +
+                    "\n\nFor more information visit the link:http://www.joflix.com/movies/${movie.id}" +
+                    "\n\nDownload the app from play store:https://play.google.com/store/apps/details?id=${activity?.packageName}")
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
 }

@@ -79,11 +79,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
         android:clickable="true"
         android:focusable="true"
         android:scaleType="fitXY"
         android:src="@drawable/back_icon"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -21,10 +21,12 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener
 import com.shorman.movies.R
+import com.shorman.movies.api.models.movie.MovieModel
 import com.shorman.movies.api.models.others.Genre
 import com.shorman.movies.api.models.tvshows.TvShowDetails
 import com.shorman.movies.api.models.tvshows.TvShowModel
 import com.shorman.movies.others.Constans.IMAGES_BASE_URL
+import com.shorman.movies.ui.movie.fragments.MovieDetailsFragmentDirections
 import com.shorman.movies.utils.Status
 import com.shorman.movies.viewModels.TvShowsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -74,8 +76,17 @@ class FragmentTvShowDetailsOne(private val tvShowID:Int):Fragment(R.layout.tv_de
                 Snackbar.make(requireView(),"${tvShowModel.original_name} saved successfully",2000)
                     .setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
                     .setBackgroundTint(ContextCompat.getColor(requireContext(),R.color.medium_orange))
+                    .setActionTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+                    .setAction("Saves"){
+                       val direction = FragmentTvShowDetailsDirections.actionFragmentTvShowDetailsToSavedFragment()
+                       findNavController().navigate(direction)
+                    }
                     .show()
             }
+        }
+
+        btnSendTvShow.setOnClickListener {
+            sendTvShow(tvShowModel)
         }
 
     }
@@ -238,5 +249,19 @@ class FragmentTvShowDetailsOne(private val tvShowID:Int):Fragment(R.layout.tv_de
             poster_path = tvShowDetails.poster_path,
             vote_average = tvShowDetails.vote_average
         )
+    }
+
+    private fun sendTvShow(tvShow: TvShowModel){
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, "Check out this tv show on Joflix \uD83C\uDF7F\uD83D\uDE00 \n\nTv show name: " +
+                    "${tvShow.original_name}\n\nTv show rate: ${tvShow.vote_average} \uD83C\uDFC6" +
+                    "\n\nFor more information visit the link:http://www.joflix.com/tvshows/${tvShow.id}" +
+                    "\n\nDownload the app from play store:https://play.google.com/store/apps/details?id=${activity?.packageName}")
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 }

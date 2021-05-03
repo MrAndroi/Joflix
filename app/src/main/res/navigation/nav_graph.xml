@@ -18,14 +18,12 @@
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/pop_enter_animation"
             app:popExitAnim="@anim/pop_exit_animation"
-            app:popUpTo="@id/findMoviesFragment"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/findMoviesFragment" />
         <action
             android:id="@+id/action_findMoviesFragment_to_fragmentTvShowDetails"
             app:destination="@id/fragmentTvShowDetails"
             app:launchSingleTop="true"
-            app:popUpTo="@id/findMoviesFragment"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/findMoviesFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -38,6 +36,11 @@
         <deepLink
             android:id="@+id/deepLink"
             app:uri="http://www.joflix.com/movies/{movieId}" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_savedFragment"
+            app:destination="@id/savedFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/movieDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/watchToNightFragment"
@@ -65,12 +68,20 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentTvShowDetails"
-        tools:layout="@layout/tv_details_fragment"
         android:name="com.shorman.movies.ui.tvShows.fragments.FragmentTvShowDetails"
-        android:label="FragmentTvShowDetails" >
+        android:label="FragmentTvShowDetails"
+        tools:layout="@layout/tv_details_fragment">
         <argument
             android:name="tvShowID"
             app:argType="integer" />
+        <deepLink
+            android:id="@+id/deepLink2"
+            app:uri="http://www.joflix.com/tvshows/{tvShowID}" />
+        <action
+            android:id="@+id/action_fragmentTvShowDetails_to_savedFragment"
+            app:destination="@id/savedFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/fragmentTvShowDetails" />
     </fragment>
     <fragment
         android:id="@+id/movieRequirmentsFragment"
@@ -132,7 +143,30 @@
         android:id="@+id/savedFragment"
         tools:layout="@layout/saved_fragment"
         android:name="com.shorman.movies.ui.fragments.SavedFragment"
-        android:label="SavedFragment" />
-
+        android:label="SavedFragment" >
+        <action
+            android:id="@+id/action_savedFragment_to_fragmentTvShowDetails"
+            app:destination="@id/fragmentTvShowDetails"
+            app:enterAnim="@anim/enter_animation"
+            app:exitAnim="@anim/exit_animation"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation"
+            app:popUpTo="@id/savedFragment" />
+        <action
+            android:id="@+id/action_savedFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment"
+            app:enterAnim="@anim/enter_animation"
+            app:exitAnim="@anim/exit_animation"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation"
+            app:popUpTo="@id/savedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        tools:layout="@layout/settings_fragment"
+        android:name="com.shorman.movies.ui.fragments.SettingsFragment"
+        android:label="SettingsFragment" />
 
 </navigation>

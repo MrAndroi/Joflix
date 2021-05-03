@@ -11,8 +11,8 @@
 
     <ImageView
         android:id="@+id/showImage"
-        android:layout_width="130dp"
-        android:layout_height="180dp"
+        android:layout_width="110dp"
+        android:layout_height="160dp"
         android:maxHeight="180dp"
         android:layout_marginTop="4dp"
         android:scaleType="fitXY"
@@ -43,6 +43,7 @@
         android:layout_marginStart="4dp"
         android:textColor="#6a6a6e"
         android:textSize="12sp"
+        android:ellipsize="end"
         app:layout_constraintBottom_toBottomOf="@+id/tvShowName"
         app:layout_constraintStart_toEndOf="@+id/tvShowName"
         app:layout_constraintTop_toTopOf="@+id/tvShowName" />

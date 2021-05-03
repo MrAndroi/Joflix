@@ -2,6 +2,7 @@ package com.shorman.movies.ui.tvShows.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +20,7 @@ import com.shorman.movies.ui.tvShows.adapters.TvShowsAdapter
 import com.shorman.movies.utils.hideKeyboard
 import com.shorman.movies.viewModels.TvShowsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.find_movies_fragment.*
 import kotlinx.android.synthetic.main.movies_fragment.*
 import kotlinx.android.synthetic.main.tv_fragment.*
 import kotlinx.coroutines.CoroutineScope
@@ -28,10 +30,11 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class FragmentTv:Fragment(R.layout.tv_fragment) {
 
-    lateinit var tvShowsViewModel:TvShowsViewModel
-    lateinit var gridLayoutManager: GridLayoutManager
-    lateinit var tvShowsAdapter: TvShowsAdapter
+    private lateinit var tvShowsViewModel:TvShowsViewModel
+    private lateinit var gridLayoutManager: GridLayoutManager
+    private lateinit var tvShowsAdapter: TvShowsAdapter
     private lateinit var onScrollListener: RecyclerView.OnScrollListener
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +56,18 @@ class FragmentTv:Fragment(R.layout.tv_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        onBackPressedCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if(gridLayoutManager.findFirstVisibleItemPosition() != 0){
+                    gridLayoutManager.smoothScrollToPosition(rvTvShows,RecyclerView.State(),0)
+                }
+                else{
+                    activity?.finish()
+                }
+            }
+        }
+        activity?.onBackPressedDispatcher!!.addCallback(onBackPressedCallback)
 
         setUpObservers()
         setUpTvShowsAdapter()
@@ -130,5 +145,7 @@ class FragmentTv:Fragment(R.layout.tv_fragment) {
     override fun onDestroyView() {
         super.onDestroyView()
         rvTvShows.removeOnScrollListener(onScrollListener)
+        onBackPressedCallback.remove()
+        onBackPressedCallback.isEnabled= false
     }
 }

@@ -1,36 +1,20 @@
 package com.shorman.movies.ui.fragments
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.LinkProperties
-import android.net.Network
-import android.net.NetworkRequest
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import androidx.paging.ExperimentalPagingApi
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shorman.movies.R
 import com.shorman.movies.adapters.ViewPagerAdapter
 import com.shorman.movies.ui.movie.fragments.FragmentMovies
 import com.shorman.movies.ui.tvShows.fragments.FragmentTv
-import com.shorman.movies.utils.ConnectionLiveData
 import com.shorman.movies.utils.beforeTextChanged
 import com.shorman.movies.viewModels.MoviesViewModel
 import com.shorman.movies.viewModels.TvShowsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.find_movies_fragment.*
-import kotlinx.android.synthetic.main.movie_details_one.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FindMoviesFragment: Fragment(R.layout.find_movies_fragment) {
@@ -61,8 +45,9 @@ class FindMoviesFragment: Fragment(R.layout.find_movies_fragment) {
             }
         }
 
-        pagerAdapter = ViewPagerAdapter(activity?.supportFragmentManager!!,lifecycle,fragmentList)
+        pagerAdapter = ViewPagerAdapter(childFragmentManager,lifecycle,fragmentList)
         pager.adapter = pagerAdapter
+
 
         etFindMoviesAndTvShows.beforeTextChanged {
             moviesViewModel.searchKeyWord(it)
