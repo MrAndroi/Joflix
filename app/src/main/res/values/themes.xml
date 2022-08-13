@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Movies" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Movies" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/dark_orange</item>
         <item name="colorPrimaryVariant">@color/black</item>
@@ -14,6 +14,13 @@
         <!-- Customize your theme here. -->
         <item name="fontFamily">@font/karla</item>
     </style>
+
+    <style name="splashScreenTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowBackground">@drawable/splash_imge</item>
+    </style>
+
 
     <style name="roundedImageView" parent="">
         <item name="cornerFamily">rounded</item>

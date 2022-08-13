@@ -13,11 +13,11 @@
         <action
             android:id="@+id/action_findMoviesFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"
+            app:enterAnim="@anim/enter_animation"
+            app:exitAnim="@anim/exit_animation"
             app:launchSingleTop="true"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation"
             app:popUpTo="@id/findMoviesFragment" />
         <action
             android:id="@+id/action_findMoviesFragment_to_fragmentTvShowDetails"
@@ -27,12 +27,20 @@
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
-        tools:layout="@layout/movie_details_fragment"
         android:name="com.shorman.movies.ui.movie.fragments.MovieDetailsFragment"
-        android:label="MovieDetailsFragment" >
+        android:label="MovieDetailsFragment"
+        tools:layout="@layout/movie_details_fragment">
         <argument
             android:name="movieId"
             app:argType="integer" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="http://www.joflix.com/movies/{movieId}" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_savedFragment"
+            app:destination="@id/savedFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/movieDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/watchToNightFragment"
@@ -42,20 +50,123 @@
         <action
             android:id="@+id/action_watchToNightFragment_to_movieRequirmentsFragment"
             app:destination="@id/movieRequirmentsFragment"
-            app:enterAnim="@android:anim/fade_out"
-            app:exitAnim="@android:anim/fade_out"
+            app:enterAnim="@anim/enter_animation_two"
+            app:exitAnim="@anim/exit_animation_two"
             app:launchSingleTop="true"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation"
+            app:popUpTo="@id/watchToNightFragment" />
+        <action
+            android:id="@+id/action_watchToNightFragment_to_tvRequirmentsFragment"
+            app:destination="@id/tvRequirmentsFragment"
+            app:enterAnim="@anim/enter_animation_two"
+            app:exitAnim="@anim/exit_animation_two"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation"
             app:popUpTo="@id/watchToNightFragment" />
     </fragment>
     <fragment
         android:id="@+id/fragmentTvShowDetails"
-        tools:layout="@layout/tv_details_fragment"
         android:name="com.shorman.movies.ui.tvShows.fragments.FragmentTvShowDetails"
-        android:label="FragmentTvShowDetails" >
+        android:label="FragmentTvShowDetails"
+        tools:layout="@layout/tv_details_fragment">
         <argument
             android:name="tvShowID"
             app:argType="integer" />
+        <deepLink
+            android:id="@+id/deepLink2"
+            app:uri="http://www.joflix.com/tvshows/{tvShowID}" />
+        <action
+            android:id="@+id/action_fragmentTvShowDetails_to_savedFragment"
+            app:destination="@id/savedFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/fragmentTvShowDetails" />
     </fragment>
-
+    <fragment
+        android:id="@+id/movieRequirmentsFragment"
+        tools:layout="@layout/movie_requirments_fragment"
+        android:name="com.shorman.movies.ui.movie.fragments.MovieRequirmentsFragment"
+        android:label="MovieRequirmentsFragment" >
+        <action
+            android:id="@+id/action_movieRequirmentsFragment_to_lookingForMovieFragment"
+            app:destination="@id/lookingForMovieFragment"
+            app:enterAnim="@anim/enter_animation"
+            app:exitAnim="@anim/exit_animation"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation"
+            app:popUpTo="@id/movieRequirmentsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/lookingForMovieFragment"
+        tools:layout="@layout/looking_for_movie_fragment"
+        android:name="com.shorman.movies.ui.movie.fragments.LookingForMovieFragment"
+        android:label="LookingForMovieFragment" >
+        <action
+            android:id="@+id/action_lookingForMovieFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment"
+            app:enterAnim="@anim/enter_animation_two"
+            app:exitAnim="@anim/exit_animation_two"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation"
+            app:popUpTo="@id/lookingForMovieFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/tv_requirments_fragment"
+        android:id="@+id/tvRequirmentsFragment"
+        android:name="com.shorman.movies.ui.tvShows.fragments.TvRequirmentsFragment"
+        android:label="TvRequirmentsFragment" >
+        <action
+            android:id="@+id/action_tvRequirmentsFragment_to_lookingForTvShowFragment"
+            app:destination="@id/lookingForTvShowFragment"
+            app:enterAnim="@anim/enter_animation"
+            app:exitAnim="@anim/exit_animation"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation"
+            app:popUpTo="@id/tvRequirmentsFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/looking_for_tv_fragment"
+        android:id="@+id/lookingForTvShowFragment"
+        android:name="com.shorman.movies.ui.tvShows.fragments.LookingForTvShowFragment"
+        android:label="LookingForTvShowFragment" >
+        <action
+            android:id="@+id/action_lookingForTvShowFragment_to_fragmentTvShowDetails"
+            app:destination="@id/fragmentTvShowDetails"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/lookingForTvShowFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/savedFragment"
+        tools:layout="@layout/saved_fragment"
+        android:name="com.shorman.movies.ui.fragments.SavedFragment"
+        android:label="SavedFragment" >
+        <action
+            android:id="@+id/action_savedFragment_to_fragmentTvShowDetails"
+            app:destination="@id/fragmentTvShowDetails"
+            app:enterAnim="@anim/enter_animation"
+            app:exitAnim="@anim/exit_animation"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation"
+            app:popUpTo="@id/savedFragment" />
+        <action
+            android:id="@+id/action_savedFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment"
+            app:enterAnim="@anim/enter_animation"
+            app:exitAnim="@anim/exit_animation"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation"
+            app:popUpTo="@id/savedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        tools:layout="@layout/settings_fragment"
+        android:name="com.shorman.movies.ui.fragments.SettingsFragment"
+        android:label="SettingsFragment" />
 
 </navigation>

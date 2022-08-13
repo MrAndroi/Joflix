@@ -9,7 +9,7 @@ data class MovieDetails(
     val genres: List<Genre>,
     val id: Int,
     val overview: String,
-    val poster_path: Any,
+    val poster_path: String,
     val production_companies: List<ProductionCompany>,
     val release_date: String,
     val revenue: Int,

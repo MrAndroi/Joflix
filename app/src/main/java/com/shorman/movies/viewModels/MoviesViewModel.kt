@@ -11,6 +11,7 @@ import com.shorman.movies.api.models.others.VideosResponse
 import com.shorman.movies.repo.Repository
 import com.shorman.movies.utils.Resource
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 
 class MoviesViewModel @ViewModelInject constructor(private val repo:Repository):ViewModel() {
@@ -18,6 +19,9 @@ class MoviesViewModel @ViewModelInject constructor(private val repo:Repository):
     val currentQuery = MutableLiveData("")
     val movieSearchModel = MutableLiveData(MovieSearchModel())
     private val currentMovieID = MutableLiveData(1)
+    val saveState = MutableLiveData(false)
+    var isNetworkAvailable = MutableLiveData(true)
+    val savedMovies = repo.getAllSavedMovies()
 
     val actorsDialogVisible = MutableLiveData(false)
 
@@ -46,7 +50,6 @@ class MoviesViewModel @ViewModelInject constructor(private val repo:Repository):
         get() = _randomMovieList
 
 
-    @ExperimentalPagingApi
     val latestMovies = currentQuery.switchMap { queryString ->
         repo.searchForMovies(queryString).cachedIn(viewModelScope)
     }
@@ -57,51 +60,35 @@ class MoviesViewModel @ViewModelInject constructor(private val repo:Repository):
 
     fun getMovieDetails(movieID:Int) = viewModelScope.launch {
         _currentMovieDetails.postValue(Resource.loading(null))
+        _currentMovieActors.postValue(Resource.loading(null))
+        _currentMovieVideos.postValue(Resource.loading(null))
+        _currentMovieImages.postValue(Resource.loading(null))
+
 
         val result = repo.getMovieDetails(movieID)
-        if(result.isSuccessful){
+        val actorsResponse = repo.getMovieActors(movieID)
+        val videosResponse = repo.getMovieVideos(movieID)
+
+
+        try{
+            val imagesResponse = repo.getMovieImages(movieID)
+            _currentMovieImages.postValue(Resource.success(imagesResponse))
+        }catch (e:HttpException){
+            _currentMovieImages.postValue(Resource.error(e.message(),null))
+
+        }
+
+        if(result.isSuccessful && actorsResponse.isSuccessful && videosResponse.isSuccessful){
             _currentMovieDetails.postValue(Resource.success(result.body()))
+            _currentMovieActors.postValue(Resource.success(actorsResponse.body()))
+            _currentMovieVideos.postValue(Resource.success(videosResponse.body()))
         }
         else{
             _currentMovieDetails.postValue(Resource.error(result.message(),null))
+            _currentMovieActors.postValue(Resource.error(actorsResponse.message(),null))
+            _currentMovieVideos.postValue(Resource.error(videosResponse.message(),null))
         }
 
-    }
-
-    fun getMovieActors(movieID: Int) = viewModelScope.launch {
-        _currentMovieActors.postValue(Resource.loading(null))
-
-        val result = repo.getMovieActors(movieID)
-        if (result.isSuccessful){
-            _currentMovieActors.postValue(Resource.success(result.body()))
-        }
-        else{
-            _currentMovieActors.postValue(Resource.error(result.message(),null))
-        }
-    }
-
-    fun getMovieVideos(movieID: Int) = viewModelScope.launch {
-        _currentMovieVideos.postValue(Resource.loading(null))
-
-        val result = repo.getMovieVideos(movieID)
-        if(result.isSuccessful){
-            _currentMovieVideos.postValue(Resource.success(result.body()))
-        }
-        else{
-            _currentMovieVideos.postValue(Resource.error(result.message(),null))
-        }
-    }
-
-    fun getMovieImages(movieID: Int) = viewModelScope.launch {
-        _currentMovieImages.postValue(Resource.loading(null))
-
-        val result = repo.getMovieImages(movieID)
-        if(result.isSuccessful){
-            _currentMovieImages.postValue(Resource.success(result.body()))
-        }
-        else{
-            _currentMovieImages.postValue(Resource.error(result.message(),null))
-        }
     }
 
     fun getMovieGenres() = viewModelScope.launch {
@@ -134,8 +121,25 @@ class MoviesViewModel @ViewModelInject constructor(private val repo:Repository):
         }
     }
 
+    fun deleteMovie(movieModel: MovieModel) = viewModelScope.launch {
+        repo.deleteMovie(movieModel)
+    }
 
+    fun checkIfMovieSaved(movieID: Int){
+        viewModelScope.launch {
+            val result = repo.checkIfMovieSaved(movieID)
+            if(result == null){
+                saveState.postValue(false)
+            }
+            else{
+                saveState.postValue(true)
+            }
+        }
+    }
 
+    fun insertMovie(movieModel: MovieModel) = viewModelScope.launch {
+        repo.insertMovie(movieModel)
+    }
 
     fun searchKeyWord(query: String) {
         currentQuery.postValue(query)

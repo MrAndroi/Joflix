@@ -8,7 +8,7 @@ import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -21,15 +21,16 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener
 import com.shorman.movies.R
+import com.shorman.movies.api.models.movie.MovieModel
 import com.shorman.movies.api.models.others.Genre
 import com.shorman.movies.api.models.tvshows.TvShowDetails
+import com.shorman.movies.api.models.tvshows.TvShowModel
 import com.shorman.movies.others.Constans.IMAGES_BASE_URL
+import com.shorman.movies.ui.movie.fragments.MovieDetailsFragmentDirections
 import com.shorman.movies.utils.Status
 import com.shorman.movies.viewModels.TvShowsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.movie_details_one.*
 import kotlinx.android.synthetic.main.movie_details_two.*
-import kotlinx.android.synthetic.main.show_item.*
 import kotlinx.android.synthetic.main.tv_details_one.*
 import kotlinx.android.synthetic.main.tv_details_one.tvShowHomePage
 import kotlinx.android.synthetic.main.tv_details_one.view.*
@@ -37,49 +38,55 @@ import java.util.*
 
 @SuppressLint("SetTextI18n")
 @AndroidEntryPoint
-class FragmentTvShowDetailsOne(private val tvShowID: Int):Fragment(R.layout.tv_details_one) {
+class FragmentTvShowDetailsOne(private val tvShowID:Int):Fragment(R.layout.tv_details_one) {
 
     private lateinit var tvShowViewModel:TvShowsViewModel
-    private lateinit var onBackPressedCallback: OnBackPressedCallback
     private var showVideoID = ""
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        onBackPressedCallback.isEnabled = false
-        onBackPressedCallback.remove()
-    }
+    private lateinit var tvShowModel:TvShowModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         tvShowViewModel = ViewModelProvider(requireActivity()).get(TvShowsViewModel::class.java)
-        tvShowViewModel.getTvShowDetails(tvShowID)
+        tvShowViewModel.checkIfTvShowSaved(tvShowID)
+        tvShowModel = TvShowModel()
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        onBackPressedCallback = object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                if(showTrailerVideo!= null){
-                    if (showTrailerVideo.isFullScreen()) {
-                        showTrailerVideo.exitFullScreen()
-                    }
-                    else{
-                        findNavController().navigateUp()
-                    }
-                }
-                else{
-                    findNavController().navigateUp()
-                }
-            }
-        }
-        activity?.onBackPressedDispatcher?.addCallback(onBackPressedCallback)
-
         setUpObservers()
         playShowTrailerBtn.setOnClickListener{
             initYouTubePlayerView(showVideoID)
+        }
+
+        tvShowDetailsBackBtn.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        btnSaveTvShow.setOnClickListener {
+            if(tvShowViewModel.saveState.value == true){
+                tvShowViewModel.deleteTvShow(tvShowModel)
+                tvShowViewModel.checkIfTvShowSaved(tvShowID)
+            }
+            else{
+                tvShowViewModel.insertTvShow(tvShowModel)
+                tvShowViewModel.checkIfTvShowSaved(tvShowID)
+                Snackbar.make(requireView(),"${tvShowModel.original_name} saved successfully",2000)
+                    .setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+                    .setBackgroundTint(ContextCompat.getColor(requireContext(),R.color.medium_orange))
+                    .setActionTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+                    .setAction("Saves"){
+                       val direction = FragmentTvShowDetailsDirections.actionFragmentTvShowDetailsToSavedFragment()
+                       findNavController().navigate(direction)
+                    }
+                    .show()
+            }
+        }
+
+        btnSendTvShow.setOnClickListener {
+            sendTvShow(tvShowModel)
         }
 
     }
@@ -92,6 +99,7 @@ class FragmentTvShowDetailsOne(private val tvShowID: Int):Fragment(R.layout.tv_d
                 }
                 Status.SUCCESS -> {
                     it.data?.let { tvShowDetails ->
+                        tvShowModel = mapToTvShowModel(tvShowDetails)
                         setUpViews(tvShowDetails)
                         progressBarTvDetailsOne.isVisible = false
                     }
@@ -106,6 +114,19 @@ class FragmentTvShowDetailsOne(private val tvShowID: Int):Fragment(R.layout.tv_d
         tvShowViewModel.currentShowVideos.observe(viewLifecycleOwner){
             if(it.results.isNotEmpty()){
                 showVideoID = it.results[0].key
+            }
+        }
+
+        tvShowViewModel.saveState.observe(viewLifecycleOwner){
+            if(it){
+                btnSaveTvShow.setMaxProgress(0.5f)
+                btnSaveTvShow.speed = 1.5f
+                btnSaveTvShow.playAnimation()
+            }
+            else{
+                btnSaveTvShow.setMaxProgress(0.4f)
+                btnSaveTvShow.speed = -1.5f
+                btnSaveTvShow.playAnimation()
             }
         }
     }
@@ -204,12 +225,43 @@ class FragmentTvShowDetailsOne(private val tvShowID: Int):Fragment(R.layout.tv_d
             override fun onYouTubePlayerEnterFullScreen() {
                 tvShowReleaseDate.isVisible = false
                 tvFromVotes.isVisible = false
+                tvHomePage.isVisible = false
+                tvShowHomePage.isVisible = false
+                tvShowDetailsBackBtn.isVisible = false
             }
 
             override fun onYouTubePlayerExitFullScreen() {
                 tvShowReleaseDate.isVisible = true
                 tvFromVotes.isVisible = true
+                tvHomePage.isVisible = true
+                tvShowHomePage.isVisible = true
+                tvShowDetailsBackBtn.isVisible = true
             }
         })
+    }
+
+    private fun mapToTvShowModel(tvShowDetails:TvShowDetails):TvShowModel{
+        return TvShowModel(
+            id = tvShowDetails.id,
+            first_air_date = tvShowDetails.first_air_date,
+            original_name = tvShowDetails.original_name,
+            overview = tvShowDetails.overview,
+            poster_path = tvShowDetails.poster_path,
+            vote_average = tvShowDetails.vote_average
+        )
+    }
+
+    private fun sendTvShow(tvShow: TvShowModel){
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, "Check out this tv show on Joflix \uD83C\uDF7F\uD83D\uDE00 \n\nTv show name: " +
+                    "${tvShow.original_name}\n\nTv show rate: ${tvShow.vote_average} \uD83C\uDFC6" +
+                    "\n\nFor more information visit the link:http://www.joflix.com/tvshows/${tvShow.id}" +
+                    "\n\nDownload the app from play store:https://play.google.com/store/apps/details?id=${activity?.packageName}")
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 }

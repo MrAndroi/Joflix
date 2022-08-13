@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black"
+    android:layout_height="match_parent">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/spark1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="24dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/foundShowImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spark2"
+        app:layout_constraintTop_toBottomOf="@+id/tvSearching"
+        app:lottie_rawRes="@raw/spark_animation"
+        app:lottie_repeatCount="10"
+        app:lottie_repeatMode="restart" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/spark2"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/foundShowImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSearching"
+        android:visibility="invisible"
+        app:lottie_rawRes="@raw/spark_animation"
+        app:lottie_repeatCount="10"
+        app:lottie_repeatMode="restart" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/spark3"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="24dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/searchingForShow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRandomNames"
+        app:lottie_rawRes="@raw/spark_animation"
+        app:lottie_repeatCount="10"
+        app:lottie_repeatMode="restart" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/spark4"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="24dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/searchingForShow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRandomNames"
+        app:lottie_rawRes="@raw/spark_animation"
+        app:lottie_repeatCount="10"
+        app:lottie_repeatMode="restart" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/searchingForShow"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:lottie_autoPlay="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_rawRes="@raw/search_animation"
+        app:lottie_repeatCount="10"
+        app:lottie_repeatMode="restart" />
+
+    <ImageButton
+        android:id="@+id/lookingForMovieBackBtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/back_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSearching"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="Finding best tv show for you :D ... please wait"
+        android:textAlignment="center"
+        android:textColor="#D3D3D3"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchingForShow" />
+
+    <TextView
+        android:id="@+id/tvRandomNames"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textAlignment="center"
+        android:textColor="#CACACA"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/searchingForShow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/foundShowImage"
+        android:layout_width="300dp"
+        android:layout_height="350dp"
+        android:alpha="0"
+        android:scaleX="0"
+        android:scaleY="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_corner_radius="10dp" />
+
+    <TextView
+        android:id="@+id/foundMovieName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:textAlignment="center"
+        android:alpha="0"
+        android:scaleX="0"
+        android:scaleY="0"
+        android:textColor="#CACACA"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/foundShowImage" />
+
+    <ProgressBar
+        android:id="@+id/progressBarSearchingForMovie"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/foundMovieName" />
+
+    <Button
+        android:id="@+id/btnRetrySearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/medium_orange"
+        android:text="Try again!"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

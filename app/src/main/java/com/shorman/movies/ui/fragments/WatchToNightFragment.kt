@@ -24,6 +24,10 @@ class WatchToNightFragment():Fragment(R.layout.watch_tonight_fragment) {
             findNavController().navigate(R.id.action_watchToNightFragment_to_movieRequirmentsFragment)
         }
 
+        seriesBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_watchToNightFragment_to_tvRequirmentsFragment)
+        }
+
     }
 
 }

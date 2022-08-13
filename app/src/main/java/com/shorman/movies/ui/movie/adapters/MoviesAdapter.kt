@@ -14,7 +14,7 @@ import com.shorman.movies.api.models.movie.MovieModel
 import com.shorman.movies.others.Constans.IMAGES_BASE_URL
 import kotlinx.android.synthetic.main.show_item.view.*
 
-class MoviesAdapter(private val onClick:(movieId:Int) -> Unit)
+class MoviesAdapter(private val onClick:(movieModel: MovieModel) -> Unit)
     :PagingDataAdapter<MovieModel, MoviesAdapter.ShowsViewHolder>(MOVIE_COMPARER) {
 
     class ShowsViewHolder(itemView:View):RecyclerView.ViewHolder(itemView)
@@ -37,7 +37,7 @@ class MoviesAdapter(private val onClick:(movieId:Int) -> Unit)
                 tvShowName.text = movieModel.original_title
                 tvShowYear.text = movieModel.release_date
                 setOnClickListener {
-                    onClick(movieModel.id)
+                    onClick(movieModel)
                 }
             }
 

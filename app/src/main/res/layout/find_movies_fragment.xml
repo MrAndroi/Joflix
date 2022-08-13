@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/black"
     android:layout_height="match_parent">
 
@@ -17,24 +16,23 @@
         android:drawableStart="@drawable/search_icon"
         android:drawablePadding="16dp"
         android:hint="Search for movie here..."
-        android:padding="12dp"
+        android:padding="10dp"
         android:textColor="#C3BEBE"
         android:textColorHint="#42404e"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
-
+        app:layout_constraintTop_toBottomOf="@+id/tvFindMovies" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/materialTextView"
+        android:id="@+id/tvFindMovies"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Find movies, Tv series, and more.."
+        android:text="Find movies, Tv series, and more..."
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +40,7 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="25dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
@@ -66,5 +64,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tab_layout" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/networkAnimation"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:lottie_repeatCount="3"
+        app:lottie_repeatMode="restart"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_rawRes="@raw/network_error_animation" />
+
+    <TextView
+        android:id="@+id/tvError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="There is no network available"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/networkAnimation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:background="?attr/selectableItemBackground"
+    android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/savedMovieImage"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/test" />
+
+    <TextView
+        android:id="@+id/savedMovieName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="The avengers"
+        android:textColor="#DCDCDC"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/savedMovieImage" />
+
+    <TextView
+        android:id="@+id/savedMovieOverView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="thi is season over view for this movie name i dont know what im typing ahahaha"
+        android:textColor="#C5C5C5"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/savedMovieName"
+        app:layout_constraintTop_toBottomOf="@+id/savedMovieName" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/small_dot"
+        app:layout_constraintBottom_toBottomOf="@+id/savedMovieName"
+        app:layout_constraintStart_toEndOf="@+id/savedMovieName"
+        app:layout_constraintTop_toTopOf="@+id/savedMovieName" />
+
+    <TextView
+        android:id="@+id/savedMovieDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="16/4/2020"
+        android:textColor="#C5C5C5"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/savedMovieName"
+        app:layout_constraintStart_toEndOf="@+id/view2"
+        app:layout_constraintTop_toTopOf="@+id/savedMovieName" />
+
+    <TextView
+        android:id="@+id/savedMovieRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="5.5"
+        android:textColor="#C5C5C5"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/savedMovieOverView"
+        app:layout_constraintTop_toBottomOf="@+id/savedMovieOverView" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/btnRemoveMovie"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/savedMovieOverView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_progress="0.5"
+        app:lottie_rawRes="@raw/save_animations" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="20dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/savedMovieRate"
+        app:layout_constraintStart_toEndOf="@+id/savedMovieRate"
+        app:layout_constraintTop_toTopOf="@+id/savedMovieRate"
+        app:srcCompat="@drawable/star_icon" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

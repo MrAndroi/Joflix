@@ -20,9 +20,9 @@
         />
 
     <item
-        android:id="@+id/profileFragment"
-        android:title="Profile"
-        android:icon="@drawable/user_icon"
+        android:id="@+id/settingsFragment"
+        android:title="Settings"
+        android:icon="@drawable/settings_icon"
         />
 
 </menu>

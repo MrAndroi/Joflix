@@ -8,8 +8,8 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/spark1"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginEnd="24dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/foundShowImage"
@@ -78,11 +78,12 @@
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:background="?selectableItemBackgroundBorderless"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
         android:scaleType="fitXY"
         android:src="@drawable/back_icon"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -155,5 +156,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/foundMovieName" />
+
+    <Button
+        android:id="@+id/btnRetrySearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/medium_orange"
+        android:text="Try again!"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

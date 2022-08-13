@@ -9,14 +9,14 @@ import java.io.IOException
 
 private const val MOVIE_STARTING_PAGE_INDEX = 1
 
-class MoviesPagingSource(private val moviesApi: MoviesApi, private val query:String) : PagingSource<Int,MovieModel>(){
+class MoviesPagingSource(private val moviesApi: MoviesApi, private val query:String,private val lang:String) : PagingSource<Int,MovieModel>(){
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieModel> {
         val position = params.key  ?: MOVIE_STARTING_PAGE_INDEX
 
         return try {
             if(query == ""){
-                val response = moviesApi.getLatestMovies(page = position)
+                val response = moviesApi.getLatestMovies(page = position,lang = lang)
                 val movies = response.results
                 LoadResult.Page(
                         data = movies,
@@ -25,7 +25,7 @@ class MoviesPagingSource(private val moviesApi: MoviesApi, private val query:Str
                 )
             }
             else{
-                val response = moviesApi.searchForMovies(searchKeyWord = query,page = position)
+                val response = moviesApi.searchForMovies(searchKeyWord = query,page = position,lang = lang)
                 val movies = response.results
                 movies.map {
                     it.poster_path = IMAGES_BASE_URL+it.poster_path

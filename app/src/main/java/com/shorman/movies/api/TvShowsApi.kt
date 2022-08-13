@@ -1,5 +1,6 @@
 package com.shorman.movies.api
 
+import com.shorman.movies.api.models.movie.MoviesResponse
 import com.shorman.movies.api.models.others.ReviewsResponse
 import com.shorman.movies.api.models.others.VideosResponse
 import com.shorman.movies.api.models.tvshows.TvShowDetails
@@ -46,5 +47,16 @@ interface TvShowsApi {
         @Query("api_key") apiKey: String = API_KEY,
         @Query("page") page:Int,
     ): ReviewsResponse
+
+    @GET("discover/tv")
+    suspend fun getRandomTvShow(
+        @Query("with_original_language") language: String="",
+        @Query("with_genres") genres:String="",
+        @Query("with_watch_monetization_types") watchType:String="",
+        @Query("first_air_date.gte") minimumReleaseDate:String="",
+        @Query("vote_average.gte") minimumRating:Float=0f,
+        @Query("api_key") apiKey: String = API_KEY,
+        @Query("page") page:Int = 1
+    ):Response<TvShowsResponse>
 
 }

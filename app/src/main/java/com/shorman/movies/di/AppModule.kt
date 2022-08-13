@@ -1,6 +1,7 @@
 package com.shorman.movies.di
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import androidx.room.Room
 import com.shorman.movies.others.Constans.BASE_URL
 import com.shorman.movies.api.MoviesApi
@@ -12,18 +13,30 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
 object AppModule {
 
+    @Provides
+    @Singleton
+    fun provideHttpClient(): OkHttpClient =
+        OkHttpClient.Builder()
+            .connectTimeout(5, TimeUnit.MINUTES) // connect timeout
+            .writeTimeout(5, TimeUnit.MINUTES) // write timeout
+            .readTimeout(5, TimeUnit.MINUTES)
+            .build()
+
     @Singleton
     @Provides
-    fun provideMoviesApi(): MoviesApi = Retrofit.Builder()
+    fun provideMoviesApi(client: OkHttpClient): MoviesApi = Retrofit.Builder()
         .baseUrl(BASE_URL)
+        .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(MoviesApi::class.java)
@@ -42,5 +55,10 @@ object AppModule {
         Room.databaseBuilder(context,AppDatabase::class.java,DB_NAME)
             .fallbackToDestructiveMigration()
             .build()
+
+    @Provides
+    @Singleton
+    fun provideLanguageSharedPref(@ApplicationContext context: Context) =
+        context.getSharedPreferences("language",MODE_PRIVATE)
 
 }

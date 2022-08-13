@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.movie_details_two.*
 
 
 @AndroidEntryPoint
-class MovieDetailsTwoFragment(private val movieId: Int):Fragment(R.layout.movie_details_two) {
+class MovieDetailsTwoFragment:Fragment(R.layout.movie_details_two) {
 
     private lateinit var moviesViewModel: MoviesViewModel
     lateinit var movieImageAdapter: MovieImageAdapter
@@ -34,7 +34,6 @@ class MovieDetailsTwoFragment(private val movieId: Int):Fragment(R.layout.movie_
         super.onCreate(savedInstanceState)
 
         moviesViewModel = ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
-        moviesViewModel.getMovieImages(movieId)
         movieImageAdapter = MovieImageAdapter()
         commentsAdapter = CommentsAdapter()
         linearLayoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)

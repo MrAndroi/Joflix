@@ -8,6 +8,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
+    <ImageButton
+        android:id="@+id/tvShowDetailsBackBtn"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="fitXY"
+        android:elevation="10dp"
+        android:src="@drawable/back_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/tvShowImage"
         android:layout_width="match_parent"
@@ -55,11 +71,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:textColor="#C3C3C3"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSendTvShow"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvShowImage" />
+        app:layout_constraintTop_toTopOf="@+id/btnSendTvShow" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/tvShowTypeChips"
@@ -105,26 +121,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvHomePage" />
 
-    <ImageButton
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/btnSaveTvShow"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="?selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvShowImage"
-        app:srcCompat="@drawable/save_icon" />
+        app:lottie_rawRes="@raw/save_animations" />
 
     <ImageButton
-        android:id="@+id/btnSendMovie"
+        android:id="@+id/btnSendTvShow"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginEnd="16dp"
-        android:background="?selectableItemBackground"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
         android:clickable="true"
         android:focusable="true"
         android:scaleType="fitXY"
@@ -135,13 +148,17 @@
 
     <TextView
         android:id="@+id/tvShowTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
         android:fontFamily="@font/karla"
+        android:maxLines="1"
         android:textColor="#ECECEC"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
@@ -196,7 +213,8 @@
         android:id="@+id/playShowTrailerBtn"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="?selectableItemBackgroundBorderless"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
         android:clickable="true"
         android:focusable="true"
         android:scaleType="fitXY"
@@ -210,17 +228,18 @@
         android:id="@+id/showTrailerVideo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
         android:visibility="invisible"
-        app:useWebUi="false"
-        app:showVideoDuration="true"
-        app:showSeekBar="true"
         app:enableAutomaticInitialization="true"
-        app:showFullScreenButton="true"
-        app:showYouTubeButton="false"
-        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintBottom_toTopOf="@+id/tvShowStatus"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent"
+        app:showFullScreenButton="true"
+        app:showSeekBar="true"
+        app:showVideoDuration="true"
+        app:showYouTubeButton="false"
+        app:useWebUi="false">
 
     </com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>
 

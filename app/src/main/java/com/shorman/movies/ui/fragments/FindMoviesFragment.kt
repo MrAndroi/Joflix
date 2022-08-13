@@ -2,11 +2,9 @@ package com.shorman.movies.ui.fragments
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.paging.ExperimentalPagingApi
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shorman.movies.R
 import com.shorman.movies.adapters.ViewPagerAdapter
@@ -17,11 +15,7 @@ import com.shorman.movies.viewModels.MoviesViewModel
 import com.shorman.movies.viewModels.TvShowsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.find_movies_fragment.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-@ExperimentalPagingApi
 @AndroidEntryPoint
 class FindMoviesFragment: Fragment(R.layout.find_movies_fragment) {
 
@@ -31,7 +25,6 @@ class FindMoviesFragment: Fragment(R.layout.find_movies_fragment) {
     private lateinit var pagerAdapter: ViewPagerAdapter
     private lateinit var moviesViewModel:MoviesViewModel
     private lateinit var tvShowsViewModel: TvShowsViewModel
-    private lateinit var onPageChangeCallback: ViewPager2.OnPageChangeCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,27 +36,23 @@ class FindMoviesFragment: Fragment(R.layout.find_movies_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        onPageChangeCallback = object : ViewPager2.OnPageChangeCallback(){
-            override fun onPageSelected(position: Int) {
-                if(position == 0){
-                    etFindMoviesAndTvShows.beforeTextChanged {
-                        CoroutineScope(Dispatchers.Main).launch {
-                            moviesViewModel.searchKeyWord(it)
-                        }
-                    }
-                }
-                else{
-                    etFindMoviesAndTvShows.beforeTextChanged {
-                        CoroutineScope(Dispatchers.Main).launch {
-                            tvShowsViewModel.updateSearchQuery(it)
-                        }
-                    }
-                }
+        moviesViewModel.isNetworkAvailable.observe(viewLifecycleOwner){
+            if(it){
+                hideNetworkError()
+            }
+            else{
+                showNetworkError()
             }
         }
 
-        pagerAdapter = ViewPagerAdapter(requireActivity().supportFragmentManager,lifecycle,fragmentList)
+        pagerAdapter = ViewPagerAdapter(childFragmentManager,lifecycle,fragmentList)
         pager.adapter = pagerAdapter
+
+
+        etFindMoviesAndTvShows.beforeTextChanged {
+            moviesViewModel.searchKeyWord(it)
+            tvShowsViewModel.updateSearchQuery(it)
+        }
 
         TabLayoutMediator(tab_layout, pager) { tab, position ->
             when (position) {
@@ -75,8 +64,26 @@ class FindMoviesFragment: Fragment(R.layout.find_movies_fragment) {
                 }
             }
         }.attach()
+    }
 
-        pager.registerOnPageChangeCallback(onPageChangeCallback)
+    private fun showNetworkError(){
+        etFindMoviesAndTvShows.isVisible = false
+        tvFindMovies.isVisible = false
+        pager.isVisible = false
+        tab_layout.isVisible = false
+        networkAnimation.isVisible = true
+        tvError.isVisible =true
+        networkAnimation.playAnimation()
+        tvError.text = "This feature is not available without internet connection!"
+    }
 
+    private fun hideNetworkError(){
+        etFindMoviesAndTvShows.isVisible = true
+        tvFindMovies.isVisible = true
+        pager.isVisible = true
+        tab_layout.isVisible = true
+        networkAnimation.isVisible = false
+        tvError.isVisible = false
+        networkAnimation.pauseAnimation()
     }
 }
