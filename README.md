@@ -14,7 +14,7 @@ View binding: Kotlin extintions
 
 Navigation: Navigation component
 
-Design pattren: MVVM (one activity)
+Design pattern: MVVM (one activity)
 
 Asynchronous: Kotlin Coroutines
 
